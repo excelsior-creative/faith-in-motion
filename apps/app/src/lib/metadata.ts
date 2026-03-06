@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
-export const SITE_NAME = "Template Site";
-export const SITE_TAGLINE = "Built with Next.js & Payload CMS";
+export const SITE_NAME = "Faith In Motion";
+export const SITE_TAGLINE = "A Riverside County Faith Program";
 export const DEFAULT_DESCRIPTION =
-  "A high-performance project template with integrated SEO and AI features.";
+  "Faith In Motion is a collaborative of faith communities across Riverside County working together for the wellbeing of children in foster care and prospective families.";
 
 export const DEFAULT_OG_IMAGE = "/og-image.jpg";
 
@@ -19,11 +19,13 @@ export const defaultMetadata: Metadata = {
   },
   description: DEFAULT_DESCRIPTION,
   keywords: [
-    "Next.js",
-    "Payload CMS",
-    "React",
-    "Tailwind CSS",
-    "SEO optimized",
+    "faith communities",
+    "foster care",
+    "adoption",
+    "Riverside County",
+    "foster parents",
+    "faith partners",
+    "children in foster care",
   ],
   authors: [{ name: SITE_NAME, url: SITE_URL }],
   creator: SITE_NAME,

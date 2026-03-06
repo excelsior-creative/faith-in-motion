@@ -2,10 +2,15 @@ import { defaultMetadata } from "@/lib/metadata";
 import { generateGlobalSchema } from "@/lib/structured-data";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Varela_Round } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const varelaRound = Varela_Round({ 
+  weight: "400", 
+  subsets: ["latin"], 
+  variable: "--font-varela-round" 
+});
 
 export const metadata: Metadata = defaultMetadata;
 
@@ -19,7 +24,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${varelaRound.variable} ${inter.className}`}>
         {children}
         {shouldShowToolbar && <VercelToolbar />}
         <script

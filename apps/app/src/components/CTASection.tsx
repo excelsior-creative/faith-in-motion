@@ -1,86 +1,85 @@
-'use client'
-
-import React from 'react'
-import { m } from 'framer-motion'
-import { Container } from './Container'
-import { Button } from './ui/button'
-import { useContactDialog } from './ContactDialogProvider'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import React from "react";
+import Link from "next/link";
+import { ArrowRight, Phone, Mail } from "lucide-react";
 
 export const CTASection = () => {
-  const { openContactDialog } = useContactDialog()
-
   return (
-    <section className="py-20 md:py-32 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-brand" />
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand to-brand-light/50" />
-      
-      {/* Animated blobs */}
-      <m.div 
-        animate={{ 
-          scale: [1, 1.2, 1],
-          rotate: [0, 90, 0],
-        }}
-        transition={{ 
-          duration: 20, 
-          repeat: Infinity,
-          ease: "linear" 
-        }}
-        className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] bg-white/5 rounded-full blur-3xl" 
-      />
-      <m.div 
-        animate={{ 
-          scale: [1, 1.1, 1],
-          rotate: [0, -45, 0],
-        }}
-        transition={{ 
-          duration: 15, 
-          repeat: Infinity,
-          ease: "linear" 
-        }}
-        className="absolute -bottom-1/2 -left-1/4 w-[600px] h-[600px] bg-black/10 rounded-full blur-3xl" 
-      />
-
-      <Container>
-        <div className="max-w-4xl mx-auto text-center text-white relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8">
-            <Sparkles className="w-4 h-4 text-brand-foreground" />
-            <span className="text-sm font-semibold uppercase tracking-widest">Ready to start?</span>
-          </div>
-
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-8">
-            Bring Your Next Big Idea <br /> to Life with Us
-          </h2>
-
-          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-12 leading-relaxed">
-            Whether you&apos;re building a SaaS product, a marketing site, or a complex enterprise application, 
-            our modern tech stack and expert development team are here to help.
-          </p>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button 
-              onClick={openContactDialog}
-              size="lg" 
-              className="bg-white text-brand hover:bg-brand-light hover:text-white px-10 h-16 text-xl font-bold rounded-full shadow-xl hover:scale-105 transition-all"
-            >
-              Get Started Now
-              <ArrowRight className="ml-2 h-6 w-6" />
-            </Button>
-            <Button 
-              asChild
-              variant="outline" 
-              size="lg" 
-              className="border-white/30 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 px-10 h-16 text-xl rounded-full"
-            >
-              <a href="https://github.com/payloadcms/payload" target="_blank" rel="noopener noreferrer">
-                View on GitHub
-              </a>
-            </Button>
+    <>
+      {/* Faith Partners CTA */}
+      <section className="py-20 bg-[#1B6AE3] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="font-heading text-3xl md:text-4xl text-white mb-4">
+              Join Our Network of Faith Communities
+            </h2>
+            <p className="text-white/80 text-lg mb-8 leading-relaxed">
+              Over 100 faith communities in Riverside County have united to serve 
+              the thousands of children in foster care and families in need of support. 
+              Your community can make a difference.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link
+                href="/faith-partners"
+                className="inline-flex items-center gap-2 bg-white text-[#1B6AE3] px-8 py-3 rounded-full font-medium hover:bg-[#FCDB38] hover:text-[#18336B] transition-colors"
+              >
+                Become a Faith Partner
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/foster-adopt"
+                className="inline-flex items-center gap-2 border-2 border-white text-white px-8 py-3 rounded-full font-medium hover:bg-white hover:text-[#1B6AE3] transition-colors"
+              >
+                Foster or Adopt
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
-      </Container>
-    </section>
-  )
-}
 
+        {/* Wave bottom */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" preserveAspectRatio="none">
+            <path d="M0 30 C360 60 1080 0 1440 30 L1440 60 L0 60 Z" fill="white" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Contact strip */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+            <div className="text-center">
+              <p className="font-heading text-[#18336B] text-lg font-semibold mb-1">Build &amp; Support Local Community</p>
+              <p className="text-[#273C6B]/70 text-sm">Faith In Motion Collaborative</p>
+            </div>
+            <div className="flex items-center gap-3 text-[#273C6B]">
+              <div className="w-10 h-10 bg-[#1B6AE3]/10 rounded-full flex items-center justify-center">
+                <Phone className="h-5 w-5 text-[#1B6AE3]" />
+              </div>
+              <div>
+                <div className="text-xs text-[#273C6B]/60">Phone</div>
+                <a href="tel:9512285553" className="font-medium hover:text-[#1B6AE3] transition-colors">
+                  (951) 228-5553
+                </a>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 text-[#273C6B]">
+              <div className="w-10 h-10 bg-[#1B6AE3]/10 rounded-full flex items-center justify-center">
+                <Mail className="h-5 w-5 text-[#1B6AE3]" />
+              </div>
+              <div>
+                <div className="text-xs text-[#273C6B]/60">Email</div>
+                <a href="mailto:faithinmotion@fosterall.org" className="font-medium hover:text-[#1B6AE3] transition-colors">
+                  faithinmotion@fosterall.org
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};

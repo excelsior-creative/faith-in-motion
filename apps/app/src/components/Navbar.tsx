@@ -1,110 +1,130 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { m, AnimatePresence } from "framer-motion";
-import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
-import { Menu, X, ArrowRight, Search } from "lucide-react";
-import { Button } from "./ui/button";
-import { useSearch } from "./SearchProvider";
+import { Menu, X, Phone } from "lucide-react";
 
 const navbarItems = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Blog", path: "/blog" },
-  { name: "Contact", path: "/contact" },
+  { name: "Faith Partners", path: "/faith-partners" },
+  { name: "Foster/Adopt", path: "/foster-adopt" },
+  { name: "Events", path: "/events" },
+  { name: "Contact Us", path: "/contact" },
 ];
 
 export const Navbar = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const { openSearch } = useSearch();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="relative w-full flex justify-between items-center py-6">
-      <div className="flex-1 flex justify-start">
-        <Logo />
-      </div>
+    <nav
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        scrolled
+          ? "bg-white shadow-md"
+          : "bg-white/95 backdrop-blur-sm"
+      )}
+    >
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="flex-shrink-0">
+            <Image
+              src="/images/logo.png"
+              alt="Faith In Motion"
+              width={200}
+              height={40}
+              className="h-12 w-auto object-contain"
+              priority
+            />
+          </Link>
 
-      <div className="hidden md:flex flex-1 justify-center gap-6">
-        {navbarItems.map((item) => (
-          <Link
-            key={item.name}
-            href={item.path}
-            className={cn(
-              "text-sm font-medium transition-colors hover:text-brand whitespace-nowrap",
-              pathname === item.path ? "text-brand font-semibold" : "text-muted-foreground"
-            )}
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {navbarItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.path}
+                className={cn(
+                  "font-heading text-sm font-medium transition-colors relative group",
+                  pathname === item.path
+                    ? "text-[#1B6AE3]"
+                    : "text-[#273C6B] hover:text-[#1B6AE3]"
+                )}
+              >
+                {item.name}
+                <span className={cn(
+                  "absolute -bottom-1 left-0 h-0.5 bg-[#1B6AE3] transition-all duration-300",
+                  pathname === item.path ? "w-full" : "w-0 group-hover:w-full"
+                )} />
+              </Link>
+            ))}
+          </div>
+
+          {/* Phone CTA */}
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href="tel:9512285553"
+              className="flex items-center gap-2 bg-[#1B6AE3] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-[#1F4083] transition-colors"
+            >
+              <Phone className="h-4 w-4" />
+              (951) 228-5553
+            </a>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 text-[#273C6B]"
+            aria-label="Toggle menu"
           >
-            {item.name}
-          </Link>
-        ))}
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
-      <div className="hidden md:flex flex-1 justify-end items-center gap-4">
-        <button
-          onClick={openSearch}
-          className="p-2 text-muted-foreground hover:text-brand transition-colors cursor-pointer rounded-full hover:bg-muted"
-          aria-label="Search"
-        >
-          <Search className="h-5 w-5" />
-        </button>
-
-        <Button asChild variant="ghost">
-          <Link href="/admin">Admin</Link>
-        </Button>
-        <Button asChild className="bg-brand hover:bg-brand-light text-white transition-colors">
-          <Link href="/admin">
-            Get Started
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      </div>
-
-      <div className="md:hidden flex items-center gap-2">
-        <button
-          onClick={openSearch}
-          className="p-2 text-muted-foreground hover:text-brand transition-colors cursor-pointer rounded-full"
-          aria-label="Search"
-        >
-          <Search className="h-6 w-6" />
-        </button>
-
-        <button onClick={() => setIsOpen(!isOpen)} className="p-2">
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
-
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <m.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="absolute top-full left-0 right-0 bg-background border-b z-50 overflow-hidden md:hidden"
+            className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
           >
-            <div className="flex flex-col p-4 gap-4">
+            <div className="flex flex-col p-4 gap-4 max-w-7xl mx-auto">
               {navbarItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.path}
                   onClick={() => setIsOpen(false)}
                   className={cn(
-                    "text-lg font-medium",
-                    pathname === item.path ? "text-brand" : "text-muted-foreground"
+                    "font-heading text-lg py-2 border-b border-gray-100",
+                    pathname === item.path
+                      ? "text-[#1B6AE3] font-semibold"
+                      : "text-[#273C6B]"
                   )}
                 >
                   {item.name}
                 </Link>
               ))}
-              <hr />
-              <Button asChild className="bg-brand hover:bg-brand-light text-white w-full transition-colors">
-                <Link href="/admin" onClick={() => setIsOpen(false)}>
-                  Get Started
-                </Link>
-              </Button>
+              <a
+                href="tel:9512285553"
+                className="flex items-center justify-center gap-2 bg-[#1B6AE3] text-white py-3 rounded-full font-medium mt-2"
+              >
+                <Phone className="h-4 w-4" />
+                (951) 228-5553
+              </a>
             </div>
           </m.div>
         )}
@@ -112,4 +132,3 @@ export const Navbar = () => {
     </nav>
   );
 };
-

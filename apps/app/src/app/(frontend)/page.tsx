@@ -1,13 +1,9 @@
 import React from "react";
 import { Hero } from "@/components/Hero";
-import { BlogSection } from "@/components/BlogSection";
+import { ImpactStats } from "@/components/ImpactStats";
 import { AboutSection } from "@/components/AboutSection";
 import { ServicesSection } from "@/components/ServicesSection";
-import nextDynamic from 'next/dynamic'
-
-const CTASection = nextDynamic(() =>
-  import('@/components/CTASection').then((mod) => mod.CTASection),
-)
+import { CTASection } from "@/components/CTASection";
 
 export const dynamic = 'force-dynamic';
 
@@ -15,9 +11,9 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <Hero />
+      <ImpactStats />
       <AboutSection />
       <ServicesSection />
-      <BlogSection title="Recent Posts" badge="Our Blog" />
       <CTASection />
     </div>
   );
