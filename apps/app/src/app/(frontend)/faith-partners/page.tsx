@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Users, Heart, BookOpen, Gift, MessageCircle, Star } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, BookOpen, Gift, MessageCircle, Star, MapPin as GuideIcon } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -26,9 +26,9 @@ const ways = [
     description: "Mobilize your congregation to volunteer with children and families. From tutoring to mentorship to practical help, your community members can make lasting connections.",
   },
   {
-    icon: Heart,
-    title: "Support Groups",
-    description: "Host support groups for foster and adoptive families at your facility. Providing a welcoming space for families builds community and reduces isolation.",
+    icon: GuideIcon,
+    title: "Guidance",
+    description: "We support faith members by educating them on the foster process and helping them in the selection of a foster family agency (FFA). Step-by-step guidance through every stage of the journey.",
   },
   {
     icon: MessageCircle,

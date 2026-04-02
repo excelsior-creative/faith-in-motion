@@ -1,3 +1,194 @@
+# Faith In Motion — Round 1: Content Gaps + Visual Polish
+
+> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+
+**Goal:** Fix 4 content/quality issues vs. the original site: (1) Guidance card on Faith Partners, (2) all 4 foster care stories on Foster & Adopt, (3) accurate story descriptions, (4) completely rebuild the Contact Form to match the original site's fields and the site's visual design.
+
+**Architecture:** All changes are in `apps/app/src/` — a Next.js 14 App Router project using Tailwind CSS and shadcn/ui. No database changes needed; these are purely UI/content updates.
+
+**Tech Stack:** Next.js 14, TypeScript, Tailwind CSS, shadcn/ui, react-google-recaptcha-v3
+
+**Repo:** `excelsior-creative/faith-in-motion` | Working dir: `apps/app`
+
+---
+
+## Task 1: Fix Faith Partners — Replace "Support Groups" with "Guidance"
+
+The original site (faithinmotionrivco.org/faithpartner/) has 6 collaboration types:
+1. Information, 2. Donations, 3. **Guidance** (Step-by-step Guide To Fostering), 4. Volunteers, 5. Connection, 6. Celebration
+
+The rebuild has "Support Groups" as #4 instead of "Guidance". Fix it.
+
+**Files:**
+- Modify: `apps/app/src/app/(frontend)/faith-partners/page.tsx`
+
+**Step 1: Find the wrong entry**
+
+In `faith-partners/page.tsx`, locate the `ways` array. The 4th entry has:
+```tsx
+{
+  icon: Heart,
+  title: "Support Groups",
+  description: "Host support groups for foster and adoptive families...",
+},
+```
+
+**Step 2: Replace with Guidance**
+
+Replace that entire entry with:
+```tsx
+{
+  icon: MapPin,
+  title: "Guidance",
+  description: "We support faith members by educating them on the foster process and helping them in the selection of a foster family agency (FFA). Step-by-step guidance through every stage.",
+},
+```
+
+Also update the import line at the top — `MapPin` is already likely available, but check and add if missing. Replace `Heart` import with `MapPin` if `Heart` is no longer used. If `Heart` is used elsewhere in the file, just add `MapPin` to the existing import.
+
+**Step 3: Verify locally**
+
+```bash
+cd /Users/timmy/projects/devon/faith-in-motion
+pnpm dev
+```
+
+Open `http://localhost:3000/faith-partners` — confirm the 4th card now reads "Guidance" with the subtitle "Step-by-step Guide To Fostering".
+
+**Step 4: Commit**
+
+```bash
+cd /Users/timmy/projects/devon/faith-in-motion
+git add apps/app/src/app/\(frontend\)/faith-partners/page.tsx
+git commit -m "fix: replace Support Groups with Guidance card on Faith Partners page"
+```
+
+---
+
+## Task 2: Fix Foster & Adopt — Complete All 4 Stories
+
+The original site has 4 real stories. The rebuild only has 2 (Bryanna, Lara) and uses fabricated quotes. Fix to show all 4 with accurate descriptions from the original.
+
+**Files:**
+- Modify: `apps/app/src/app/(frontend)/foster-adopt/page.tsx`
+
+**Step 1: Update the stories array**
+
+Find the `stories` array near the top of `foster-adopt/page.tsx`. Replace it entirely with:
+
+```tsx
+const stories = [
+  {
+    name: "Bryanna's Story",
+    description: "Adopted as a child and is now in college",
+    role: "Adoptee",
+  },
+  {
+    name: "Lara's Story",
+    description: "Currently fostering — learn about her journey",
+    role: "Foster Parent",
+  },
+  {
+    name: "Mayelli's Story",
+    description: "A teenager who was recently adopted",
+    role: "Adoptee",
+  },
+  {
+    name: "Noemi's Story",
+    description: "Foster mother to 100+ children over the years",
+    role: "Foster Parent",
+  },
+];
+```
+
+**Step 2: Update the story card rendering**
+
+Find where stories are mapped in the JSX. The current cards use `story.quote` with italic quotes. Replace each card with a simpler card that shows the name, description, and role — no fake quotes. Update the card JSX in the `{stories.map(...)}` block to:
+
+```tsx
+{stories.map((story) => (
+  <div
+    key={story.name}
+    className="bg-[#18336B]/5 rounded-2xl p-8 border border-[#18336B]/10"
+  >
+    <div className="w-12 h-12 bg-[#1B6AE3] rounded-full flex items-center justify-center mb-4">
+      <Heart className="h-6 w-6 text-white" />
+    </div>
+    <div className="font-heading text-xl text-[#18336B] mb-2">{story.name}</div>
+    <p className="text-[#273C6B]/80 leading-relaxed mb-3">{story.description}</p>
+    <span className="inline-block bg-[#1B6AE3]/10 text-[#1B6AE3] text-sm px-3 py-1 rounded-full">
+      {story.role}
+    </span>
+  </div>
+))}
+```
+
+Make sure `Heart` is imported from lucide-react (it should already be). Also update the grid to `md:grid-cols-2 lg:grid-cols-4` since there are now 4 cards, or keep it at `md:grid-cols-2` — either works. Keep `md:grid-cols-2`.
+
+**Step 3: Remove the Star import if no longer used**
+
+The `Star` icon was used for star ratings on the fake quotes. Check if `Star` is still used anywhere in the file. If not, remove it from the lucide-react import.
+
+**Step 4: Verify**
+
+Open `http://localhost:3000/foster-adopt` — confirm you see 4 story cards: Bryanna, Lara, Mayelli, Noemi.
+
+**Step 5: Commit**
+
+```bash
+git add apps/app/src/app/\(frontend\)/foster-adopt/page.tsx
+git commit -m "fix: add all 4 foster care stories with accurate descriptions"
+```
+
+---
+
+## Task 3: Rebuild Contact Form — Match Original Fields + Site Design
+
+**The two problems with the current ContactForm:**
+1. **Wrong fields** — Original has: "I am interested in…" dropdown, First Name, Last Name, Faith Community Name, Email, Phone, Address, City, State, Zip, "Tell us about your interest" textarea, "How did you hear about us?" dropdown. Current form only has Name, Email, Message.
+2. **Wrong design** — Current form uses a dark `zinc-900` / black tech aesthetic with glowing borders that belongs on a tech startup site, not a faith-based nonprofit. It should match the rest of the site: white background, blue/navy colors, clean rounded inputs.
+
+**Files:**
+- Modify: `apps/app/src/components/ContactForm.tsx`
+- Modify: `apps/app/src/app/api/contact/route.ts` (to accept new fields)
+
+### Step 3a: Check existing API route
+
+```bash
+cat apps/app/src/app/api/contact/route.ts
+```
+
+Note what fields it currently accepts. You'll need to update it.
+
+### Step 3b: Update the API route
+
+Replace the body of the route handler to accept and forward all the new form fields. Find `apps/app/src/app/api/contact/route.ts` and update the destructuring to include all fields:
+
+```typescript
+const { 
+  firstName, 
+  lastName, 
+  faithCommunityName,
+  email, 
+  phone,
+  address,
+  city,
+  state,
+  zip,
+  interestedIn,
+  hearAboutUs,
+  message, 
+  recaptchaToken 
+} = await req.json();
+```
+
+Forward all fields to whatever email/notification service is configured. If you find a simple `nodemailer` or `resend` or similar call, update the email body to include all fields. If you're unsure about the email destination, just log the fields and return success — the key fix is the UI.
+
+### Step 3c: Rebuild ContactForm.tsx
+
+Replace the entire `ContactForm.tsx` file with:
+
+```tsx
 "use client";
 
 import { Loader2, Send } from "lucide-react";
@@ -292,7 +483,7 @@ export const ContactForm = () => {
         />
       </div>
 
-      {/* City / Zip */}
+      {/* City / State / Zip */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor="city" className={labelClass}>
@@ -433,3 +624,55 @@ export const ContactForm = () => {
     </form>
   );
 };
+```
+
+**Step 3d: Verify the contact form**
+
+Open `http://localhost:3000/contact` — verify:
+- Form has all fields in the correct order
+- Design matches the rest of the site (white bg, blue accents, navy labels)
+- No dark/zinc styling remains
+- All required fields have a red asterisk
+
+**Step 3e: Commit**
+
+```bash
+git add apps/app/src/components/ContactForm.tsx
+git commit -m "fix: rebuild contact form with correct fields and site-matching design"
+```
+
+---
+
+## Task 4: Push and Deploy
+
+**Step 1: Push to GitHub**
+
+```bash
+cd /Users/timmy/projects/devon/faith-in-motion
+git push origin main
+```
+
+**Step 2: Verify Vercel deployment**
+
+Vercel is connected to this repo. After push, go to `https://vercel.com/excelsior-creative/faith-in-motion` and confirm the deployment completes without errors.
+
+**Step 3: Smoke test on Vercel**
+
+Once deployed, check these URLs:
+- `https://faith-in-motion-nine.vercel.app/faith-partners` → 4th card is "Guidance"
+- `https://faith-in-motion-nine.vercel.app/foster-adopt` → 4 story cards visible (Bryanna, Lara, Mayelli, Noemi)
+- `https://faith-in-motion-nine.vercel.app/contact` → Full form with all fields, white/blue design
+
+**Step 4: Report back**
+
+Post results in #cb-faithinmotion on Slack.
+
+---
+
+## Notes for Devon
+
+- Working directory: `/Users/timmy/projects/devon/faith-in-motion`
+- Dev server: `pnpm dev` from repo root (or `cd apps/app && pnpm dev`)
+- These are all content/UI-only changes — no schema migrations, no Payload CMS changes needed
+- The API route at `apps/app/src/app/api/contact/route.ts` may need field updates in Task 3b, but if email delivery is unclear, it's okay to just update the form fields and leave the API accepting the extra fields without breaking — don't break what works
+- If `apps/app/src/app/api/contact/route.ts` doesn't exist or is minimal, skip 3b and just fix the form UI

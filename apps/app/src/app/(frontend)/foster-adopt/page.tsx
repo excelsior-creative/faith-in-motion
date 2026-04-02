@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Heart, Users, Star, CheckCircle, Phone, Mail } from "lucide-react";
+import { ArrowRight, Heart, Users, CheckCircle, Phone, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -40,12 +40,22 @@ const steps = [
 const stories = [
   {
     name: "Bryanna's Story",
-    quote: "Faith In Motion connected us with the perfect agency. The guidance we received made the entire process feel manageable and supported.",
-    role: "Adoptive Parent",
+    description: "Adopted as a child and is now in college",
+    role: "Adoptee",
   },
   {
     name: "Lara's Story",
-    quote: "I was nervous about foster care, but the team at Faith In Motion walked us through every step. We're now fostering two incredible kids.",
+    description: "Currently fostering — learn about her journey",
+    role: "Foster Parent",
+  },
+  {
+    name: "Mayelli's Story",
+    description: "A teenager who was recently adopted",
+    role: "Adoptee",
+  },
+  {
+    name: "Noemi's Story",
+    description: "Foster mother to 100+ children over the years",
     role: "Foster Parent",
   },
 ];
@@ -196,16 +206,14 @@ export default function FosterAdoptPage() {
                 key={story.name}
                 className="bg-[#18336B]/5 rounded-2xl p-8 border border-[#18336B]/10"
               >
-                <div className="flex gap-1 mb-4">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="h-4 w-4 fill-[#FCDB38] text-[#FCDB38]" />
-                  ))}
+                <div className="w-12 h-12 bg-[#1B6AE3] rounded-full flex items-center justify-center mb-4">
+                  <Heart className="h-6 w-6 text-white" />
                 </div>
-                <p className="text-[#273C6B] italic leading-relaxed mb-6">
-                  &ldquo;{story.quote}&rdquo;
-                </p>
-                <div className="font-heading text-[#18336B] font-semibold">{story.name}</div>
-                <div className="text-sm text-[#273C6B]/60">{story.role}</div>
+                <div className="font-heading text-xl text-[#18336B] mb-2">{story.name}</div>
+                <p className="text-[#273C6B]/80 leading-relaxed mb-3">{story.description}</p>
+                <span className="inline-block bg-[#1B6AE3]/10 text-[#1B6AE3] text-sm px-3 py-1 rounded-full">
+                  {story.role}
+                </span>
               </div>
             ))}
           </div>
