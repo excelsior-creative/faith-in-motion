@@ -1,10 +1,5 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, CheckCircle } from "lucide-react";
-import { m, useReducedMotion } from "framer-motion";
 import {
   fadeUp,
   scaleIn,
@@ -12,6 +7,10 @@ import {
   transition,
   VIEWPORT_MARGIN,
 } from "@/lib/motion";
+import { m, useReducedMotion } from "framer-motion";
+import { ArrowRight, CheckCircle } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const highlights = [
   "Expert guidance through the foster care system",
@@ -28,7 +27,6 @@ export const AboutSection = () => {
     <section className="py-20 md:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-
           {/* Image */}
           <m.div
             className="relative order-2 md:order-1"
@@ -40,7 +38,7 @@ export const AboutSection = () => {
           >
             <div className="relative rounded-3xl overflow-hidden aspect-[5/6]">
               <Image
-                src="/images/section-bg.jpg"
+                src="/images/recruit-photo.png"
                 alt="Faith community members working together for children in foster care"
                 fill
                 className="object-cover"
@@ -59,7 +57,9 @@ export const AboutSection = () => {
               <div className="font-display font-bold text-[#18336B] text-xs uppercase tracking-tight leading-snug">
                 Official DPSS Partner
               </div>
-              <div className="text-[#18336B]/65 text-xs mt-0.5">Riverside County · Since 2013</div>
+              <div className="text-[#18336B]/65 text-xs mt-0.5">
+                Riverside County · Since 2013
+              </div>
             </m.div>
           </m.div>
 
@@ -91,16 +91,14 @@ export const AboutSection = () => {
               variants={fadeUp}
               transition={transition(0.24)}
             >
-              From the days of the Orphan Trains to today, faith communities have stepped up
-              when children needed them most. Faith In Motion formalizes that calling —
-              connecting Riverside County congregations with children in foster care, and with
-              families who need a community around them.
+              From the days of the Orphan Trains to today, faith communities
+              have stepped up when children needed them most. Faith In Motion
+              formalizes that calling — connecting Riverside County
+              congregations with children in foster care, and with families who
+              need a community around them.
             </m.p>
 
-            <m.ul
-              className="space-y-3 mb-10"
-              variants={staggerContainer}
-            >
+            <m.ul className="space-y-3 mb-10" variants={staggerContainer}>
               {highlights.map((item, i) => (
                 <m.li
                   key={item}
@@ -114,10 +112,7 @@ export const AboutSection = () => {
               ))}
             </m.ul>
 
-            <m.div
-              variants={fadeUp}
-              transition={transition(0.55)}
-            >
+            <m.div variants={fadeUp} transition={transition(0.55)}>
               <Link
                 href="/faith-partners"
                 className="group inline-flex items-center gap-2 bg-[#18336B] text-white px-5 py-3 rounded-xl font-semibold text-sm hover:bg-[#1B6AE3] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#18336B] focus-visible:ring-offset-2"
@@ -127,7 +122,6 @@ export const AboutSection = () => {
               </Link>
             </m.div>
           </m.div>
-
         </div>
       </div>
     </section>
