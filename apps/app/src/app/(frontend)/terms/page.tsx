@@ -1,4 +1,3 @@
-import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -28,7 +27,7 @@ export default function TermsPage() {
     <div className="min-h-screen bg-white text-gray-900">
       {/* Header */}
       <div className="bg-[#0f2247] text-white py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 md:px-4">
           <p className="text-[#FCDB38] text-sm font-semibold uppercase tracking-widest mb-3">
             Legal
           </p>
@@ -62,14 +61,15 @@ export default function TermsPage() {
         </aside>
 
         {/* Body */}
-        <article className="prose prose-gray prose-lg max-w-none prose-headings:font-bold prose-headings:text-[#0f2247] prose-a:text-[#1B6AE3] prose-a:hover:underline">
+        <article className="prose prose-gray prose-lg max-w-none prose-headings:font-bold prose-headings:text-[#0f2247] prose-h2:leading-[calc(40/30*0.7)] prose-a:text-[#1B6AE3] prose-a:hover:underline">
           <section id="acceptance">
             <h2>Acceptance of Terms</h2>
             <p>
               By accessing or using the Faith In Motion website located at{" "}
               <a href="https://faithinmotion.org">faithinmotion.org</a> (the
-              "Site"), you agree to be bound by these Terms of Service ("Terms").
-              If you do not agree to these Terms, please do not use the Site.
+              "Site"), you agree to be bound by these Terms of Service
+              ("Terms"). If you do not agree to these Terms, please do not use
+              the Site.
             </p>
             <p>
               Faith In Motion is a nonprofit collaborative of faith communities
@@ -85,8 +85,8 @@ export default function TermsPage() {
             <p>The Site provides:</p>
             <ul>
               <li>
-                Informational resources about foster care, adoption, and
-                family support services in Riverside County.
+                Informational resources about foster care, adoption, and family
+                support services in Riverside County.
               </li>
               <li>
                 Event listings, registration forms, and community programming
@@ -103,15 +103,17 @@ export default function TermsPage() {
             </ul>
             <p>
               The Site is provided for informational purposes only and does not
-              constitute legal, financial, or professional social services advice.
-              For case-specific guidance, please contact Riverside County DPSS
-              directly.
+              constitute legal, financial, or professional social services
+              advice. For case-specific guidance, please contact Riverside
+              County DPSS directly.
             </p>
           </section>
 
           <section id="acceptable-use">
             <h2>Acceptable Use</h2>
-            <p>You agree to use the Site only for lawful purposes. You may not:</p>
+            <p>
+              You agree to use the Site only for lawful purposes. You may not:
+            </p>
             <ul>
               <li>
                 Use the Site in any way that violates applicable federal, state,
@@ -126,16 +128,16 @@ export default function TermsPage() {
                 its underlying infrastructure.
               </li>
               <li>
-                Use automated tools (scrapers, bots, crawlers) to extract content
-                from the Site without prior written permission.
+                Use automated tools (scrapers, bots, crawlers) to extract
+                content from the Site without prior written permission.
               </li>
               <li>
-                Transmit any unsolicited commercial communications (spam) through
-                the Site's contact features.
+                Transmit any unsolicited commercial communications (spam)
+                through the Site's contact features.
               </li>
               <li>
-                Impersonate any person or entity or misrepresent your affiliation
-                with any person or entity.
+                Impersonate any person or entity or misrepresent your
+                affiliation with any person or entity.
               </li>
               <li>
                 Engage in conduct that could damage, disable, or impair the
@@ -171,8 +173,9 @@ export default function TermsPage() {
             <p>
               THE SITE AND ALL CONTENT ARE PROVIDED "AS IS" AND "AS AVAILABLE"
               WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED,
-              INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY,
-              FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+              INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF
+              MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+              NON-INFRINGEMENT.
             </p>
             <p>
               Faith In Motion does not warrant that the Site will be
@@ -199,9 +202,9 @@ export default function TermsPage() {
               ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
             </p>
             <p>
-              IN NO EVENT SHALL OUR TOTAL LIABILITY TO YOU FOR ALL CLAIMS ARISING
-              OUT OF OR RELATED TO THESE TERMS OR THE SITE EXCEED ONE HUNDRED
-              DOLLARS ($100).
+              IN NO EVENT SHALL OUR TOTAL LIABILITY TO YOU FOR ALL CLAIMS
+              ARISING OUT OF OR RELATED TO THESE TERMS OR THE SITE EXCEED ONE
+              HUNDRED DOLLARS ($100).
             </p>
             <p>
               Some jurisdictions do not allow certain limitations of liability,
@@ -261,9 +264,10 @@ export default function TermsPage() {
             <p>
               These Terms are governed by and construed in accordance with the
               laws of the State of California, without regard to its conflict of
-              law provisions. Any dispute arising from or relating to these Terms
-              or the Site shall be subject to the exclusive jurisdiction of the
-              state and federal courts located in Riverside County, California.
+              law provisions. Any dispute arising from or relating to these
+              Terms or the Site shall be subject to the exclusive jurisdiction
+              of the state and federal courts located in Riverside County,
+              California.
             </p>
           </section>
 
@@ -274,26 +278,41 @@ export default function TermsPage() {
               us:
             </p>
             <address className="not-italic not-prose space-y-2 text-base text-gray-700">
-              <p><strong className="text-gray-900">Faith In Motion</strong></p>
+              <p>
+                <strong className="text-gray-900">Faith In Motion</strong>
+              </p>
               <p>3752 Elizabeth St, Ste D2, Riverside, CA 92506</p>
               <p>
-                <a href="mailto:faithinmotion@fosterall.org" className="text-[#1B6AE3] hover:underline">
+                <a
+                  href="mailto:faithinmotion@fosterall.org"
+                  className="text-[#1B6AE3] hover:underline"
+                >
                   faithinmotion@fosterall.org
                 </a>
               </p>
               <p>
-                <a href="tel:9512285553" className="text-[#1B6AE3] hover:underline">(951) 228-5553</a>
+                <a
+                  href="tel:9512285553"
+                  className="text-[#1B6AE3] hover:underline"
+                >
+                  (951) 228-5553
+                </a>
               </p>
             </address>
           </section>
-
         </article>
 
         <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row gap-4 text-sm">
-          <Link href="/privacy" className="text-[#1B6AE3] hover:underline font-medium">
+          <Link
+            href="/privacy"
+            className="text-[#1B6AE3] hover:underline font-medium"
+          >
             View Privacy Policy →
           </Link>
-          <Link href="/contact" className="text-[#1B6AE3] hover:underline font-medium">
+          <Link
+            href="/contact"
+            className="text-[#1B6AE3] hover:underline font-medium"
+          >
             Contact Us
           </Link>
         </div>

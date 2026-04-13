@@ -1,4 +1,3 @@
-import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -27,7 +26,7 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-white text-gray-900">
       {/* Header */}
       <div className="bg-[#0f2247] text-white py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 md:px-4">
           <p className="text-[#FCDB38] text-sm font-semibold uppercase tracking-widest mb-3">
             Legal
           </p>
@@ -61,15 +60,15 @@ export default function PrivacyPage() {
         </aside>
 
         {/* Body */}
-        <article className="prose prose-gray prose-lg max-w-none prose-headings:font-bold prose-headings:text-[#0f2247] prose-a:text-[#1B6AE3] prose-a:hover:underline">
+        <article className="prose prose-gray prose-lg max-w-none prose-headings:font-bold prose-headings:text-[#0f2247] prose-h2:leading-[calc(40/30*0.7)] prose-a:text-[#1B6AE3] prose-a:hover:underline">
           <section id="introduction">
             <h2>Introduction</h2>
             <p>
               Faith In Motion ("we," "us," or "our") is a collaborative of faith
-              communities across Riverside County dedicated to supporting children
-              in foster care and prospective foster and adoptive families. We
-              operate this website (the "Site") in partnership with Riverside
-              County Department of Public Social Services (DPSS).
+              communities across Riverside County dedicated to supporting
+              children in foster care and prospective foster and adoptive
+              families. We operate this website (the "Site") in partnership with
+              Riverside County Department of Public Social Services (DPSS).
             </p>
             <p>
               This Privacy Policy explains how we collect, use, disclose, and
@@ -101,9 +100,9 @@ export default function PrivacyPage() {
             <h3>Information collected automatically</h3>
             <ul>
               <li>
-                <strong>Usage data:</strong> pages visited, time spent, referring
-                URL, browser type, and device type — collected via standard web
-                server logs and analytics.
+                <strong>Usage data:</strong> pages visited, time spent,
+                referring URL, browser type, and device type — collected via
+                standard web server logs and analytics.
               </li>
               <li>
                 <strong>Cookies:</strong> small files stored in your browser to
@@ -120,16 +119,14 @@ export default function PrivacyPage() {
               <li>Respond to your inquiries and provide support.</li>
               <li>
                 Send you information about events, resources, and updates
-                relevant to foster care and adoption in Riverside County —
-                only when you have requested it or opted in.
+                relevant to foster care and adoption in Riverside County — only
+                when you have requested it or opted in.
               </li>
               <li>
                 Process and manage event registrations and volunteer
                 coordination.
               </li>
-              <li>
-                Improve the Site's content, usability, and performance.
-              </li>
+              <li>Improve the Site's content, usability, and performance.</li>
               <li>
                 Comply with legal obligations and protect the safety of children
                 and families we serve.
@@ -159,9 +156,9 @@ export default function PrivacyPage() {
                 care or adoption services you have requested.
               </li>
               <li>
-                <strong>Legal requirements:</strong> if required by law,
-                court order, or to protect the rights, property, or safety of
-                Faith In Motion, our partners, or the public.
+                <strong>Legal requirements:</strong> if required by law, court
+                order, or to protect the rights, property, or safety of Faith In
+                Motion, our partners, or the public.
               </li>
             </ul>
           </section>
@@ -169,11 +166,12 @@ export default function PrivacyPage() {
           <section id="data-retention">
             <h2>Data Retention</h2>
             <p>
-              We retain personal information only as long as necessary to fulfill
-              the purposes described in this policy, or as required by law. Contact
-              form submissions are retained for up to 2 years. Event registration
-              data is retained for 1 year after the event. You may request deletion
-              at any time (see <a href="#your-rights">Your Rights</a>).
+              We retain personal information only as long as necessary to
+              fulfill the purposes described in this policy, or as required by
+              law. Contact form submissions are retained for up to 2 years.
+              Event registration data is retained for 1 year after the event.
+              You may request deletion at any time (see{" "}
+              <a href="#your-rights">Your Rights</a>).
             </p>
           </section>
 
@@ -220,11 +218,11 @@ export default function PrivacyPage() {
           <section id="childrens-privacy">
             <h2>Children's Privacy</h2>
             <p>
-              Our Site is not directed to children under the age of 13, and we do
-              not knowingly collect personal information from children. If you
-              believe a child has provided us with personal information, please
-              contact us immediately so we can remove it. We take the privacy and
-              safety of children seriously given our mission area.
+              Our Site is not directed to children under the age of 13, and we
+              do not knowingly collect personal information from children. If
+              you believe a child has provided us with personal information,
+              please contact us immediately so we can remove it. We take the
+              privacy and safety of children seriously given our mission area.
             </p>
           </section>
 
@@ -232,9 +230,9 @@ export default function PrivacyPage() {
             <h2>Cookies & Tracking</h2>
             <p>
               We use essential cookies necessary for the Site to function and
-              optional analytics cookies (such as aggregate page-view statistics)
-              that help us understand how visitors use the Site. We do not use
-              advertising or cross-site tracking cookies.
+              optional analytics cookies (such as aggregate page-view
+              statistics) that help us understand how visitors use the Site. We
+              do not use advertising or cross-site tracking cookies.
             </p>
             <p>
               You can configure your browser to refuse cookies or alert you when
@@ -246,51 +244,66 @@ export default function PrivacyPage() {
           <section id="third-party-links">
             <h2>Third-Party Links</h2>
             <p>
-              Our Site may contain links to external websites, including Riverside
-              County DPSS and partner organizations. We are not responsible for
-              the privacy practices of those sites and encourage you to review
-              their policies independently.
+              Our Site may contain links to external websites, including
+              Riverside County DPSS and partner organizations. We are not
+              responsible for the privacy practices of those sites and encourage
+              you to review their policies independently.
             </p>
           </section>
 
           <section id="changes">
             <h2>Changes to This Policy</h2>
             <p>
-              We may update this Privacy Policy from time to time. When we do, we
-              will revise the "Last updated" date at the top of this page. We
+              We may update this Privacy Policy from time to time. When we do,
+              we will revise the "Last updated" date at the top of this page. We
               encourage you to review this policy periodically. Continued use of
-              the Site after changes are posted constitutes your acceptance of the
-              updated policy.
+              the Site after changes are posted constitutes your acceptance of
+              the updated policy.
             </p>
           </section>
 
           <section id="contact">
             <h2>Contact Us</h2>
             <p>
-              If you have questions, concerns, or requests related to this Privacy
-              Policy, please contact us:
+              If you have questions, concerns, or requests related to this
+              Privacy Policy, please contact us:
             </p>
             <address className="not-italic not-prose space-y-2 text-base text-gray-700">
-              <p><strong className="text-gray-900">Faith In Motion</strong></p>
+              <p>
+                <strong className="text-gray-900">Faith In Motion</strong>
+              </p>
               <p>3752 Elizabeth St, Ste D2, Riverside, CA 92506</p>
               <p>
-                <a href="mailto:faithinmotion@fosterall.org" className="text-[#1B6AE3] hover:underline">
+                <a
+                  href="mailto:faithinmotion@fosterall.org"
+                  className="text-[#1B6AE3] hover:underline"
+                >
                   faithinmotion@fosterall.org
                 </a>
               </p>
               <p>
-                <a href="tel:9512285553" className="text-[#1B6AE3] hover:underline">(951) 228-5553</a>
+                <a
+                  href="tel:9512285553"
+                  className="text-[#1B6AE3] hover:underline"
+                >
+                  (951) 228-5553
+                </a>
               </p>
             </address>
           </section>
-
         </article>
 
         <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row gap-4 text-sm">
-          <Link href="/terms" className="text-[#1B6AE3] hover:underline font-medium">
+          <Link
+            href="/terms"
+            className="text-[#1B6AE3] hover:underline font-medium"
+          >
             View Terms of Service →
           </Link>
-          <Link href="/contact" className="text-[#1B6AE3] hover:underline font-medium">
+          <Link
+            href="/contact"
+            className="text-[#1B6AE3] hover:underline font-medium"
+          >
             Contact Us
           </Link>
         </div>

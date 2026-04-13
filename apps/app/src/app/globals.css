@@ -114,6 +114,11 @@
     text-wrap: balance;
   }
 
+  /* ~30% tighter than prose-lg h2 ratio (40/30) */
+  h2 {
+    line-height: calc(40 / 30 * 0.7);
+  }
+
   p {
     text-wrap: pretty;
   }

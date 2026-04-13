@@ -1,14 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import React, { useState, useEffect } from "react";
-import { m, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { EASE, DURATION } from "@/lib/motion";
+import { DURATION, EASE } from "@/lib/motion";
 import { siteSocialLinks } from "@/lib/siteSocialLinks";
-import { Menu, X, Phone } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { AnimatePresence, m } from "framer-motion";
+import { Menu, Phone, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const navbarItems = [
   { name: "Faith Partners", path: "/faith-partners" },
@@ -32,12 +32,10 @@ export const Navbar = () => {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled
-          ? "bg-white shadow-md"
-          : "bg-white/95 backdrop-blur-sm"
+        scrolled ? "bg-white shadow-md" : "bg-white/95 backdrop-blur-sm",
       )}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
@@ -62,14 +60,18 @@ export const Navbar = () => {
                   "font-display text-sm font-semibold transition-colors relative group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6AE3] focus-visible:ring-offset-2 rounded-sm",
                   pathname === item.path
                     ? "text-[#1B6AE3]"
-                    : "text-[#273C6B] hover:text-[#1B6AE3]"
+                    : "text-[#273C6B] hover:text-[#1B6AE3]",
                 )}
               >
                 {item.name}
-                <span className={cn(
-                  "absolute -bottom-1 left-0 h-0.5 bg-[#1B6AE3] transition-all duration-300",
-                  pathname === item.path ? "w-full" : "w-0 group-hover:w-full"
-                )} />
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-0 h-0.5 bg-[#1B6AE3] transition-all duration-300",
+                    pathname === item.path
+                      ? "w-full"
+                      : "w-0 group-hover:w-full",
+                  )}
+                />
               </Link>
             ))}
           </div>
@@ -132,7 +134,7 @@ export const Navbar = () => {
                     "font-display text-lg py-2 border-b border-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6AE3] rounded-sm",
                     pathname === item.path
                       ? "text-[#1B6AE3] font-bold"
-                      : "text-[#273C6B] font-semibold"
+                      : "text-[#273C6B] font-semibold",
                   )}
                 >
                   {item.name}

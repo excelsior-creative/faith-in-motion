@@ -39,29 +39,6 @@ const steps = [
   },
 ];
 
-const stories = [
-  {
-    name: "Bryanna's Story",
-    description: "Adopted as a child and is now in college",
-    role: "Adoptee",
-  },
-  {
-    name: "Lara's Story",
-    description: "Currently fostering — learn about her journey",
-    role: "Foster Parent",
-  },
-  {
-    name: "Mayelli's Story",
-    description: "A teenager who was recently adopted",
-    role: "Adoptee",
-  },
-  {
-    name: "Noemi's Story",
-    description: "Foster mother to 100+ children over the years",
-    role: "Foster Parent",
-  },
-];
-
 const whyItems = [
   { icon: Heart, label: "Compassion", desc: "Children need loving, stable homes" },
   { icon: Users, label: "Support", desc: "You won't be alone in this journey" },
@@ -184,19 +161,22 @@ export default function FosterAdoptPage() {
         </div>
       </section>
 
-      {/* Stories */}
-      <section className="py-20 bg-white">
+      {/* Stories — same video cards as homepage StoriesSection */}
+      <section className="py-20 md:py-28 bg-[#F8F9FC]">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <SectionReveal className="text-center mb-12">
-            <p className="font-heading text-[#1B6AE3] text-sm uppercase tracking-widest mb-3">
+          <SectionReveal className="text-center mb-12 md:mb-14">
+            <p className="text-[#1B6AE3] text-xs font-semibold uppercase tracking-[0.2em] mb-3">
               Real Families
             </p>
-            <h2 className="font-heading text-3xl md:text-4xl text-[#18336B]">
-              Foster Care and Adoption Stories
+            <h2 className="font-display font-bold text-[clamp(1.75rem,3vw+0.5rem,2.75rem)] text-[#18336B] max-w-2xl mx-auto text-balance">
+              Foster care and adoption stories
             </h2>
+            <p className="mt-4 text-[#273C6B]/70 text-sm md:text-base max-w-2xl mx-auto text-pretty">
+              Hear directly from families in Riverside County.
+            </p>
           </SectionReveal>
 
-          <FosterAdoptStories stories={stories} />
+          <FosterAdoptStories />
         </div>
       </section>
 

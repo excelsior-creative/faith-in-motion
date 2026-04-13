@@ -119,17 +119,6 @@ export function formatEventDateRange(start: string, end: string): string {
   return `${monthNames[mo - 1]} ${d}, ${y} @ ${fmt12(sh, sm)} - ${fmt12(eh, em)}`;
 }
 
-export function pickEventImageUrl(event: FimTribeEvent): string | null {
-  if (!event.image || typeof event.image !== "object") return null;
-  const sizes = event.image.sizes;
-  const preferred =
-    sizes?.medium_large?.url ||
-    sizes?.large?.url ||
-    sizes?.wide?.url ||
-    event.image.url;
-  return preferred || null;
-}
-
 export async function fetchFimTribeEvents(): Promise<FimTribeEvent[]> {
   const url = new URL(TRIBE_EVENTS_URL);
   url.searchParams.set("per_page", "100");

@@ -1,15 +1,3 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Calendar,
-  Clock,
-  ArrowRight,
-  Phone,
-  ExternalLink,
-  CalendarPlus,
-} from "lucide-react";
-import type { Metadata } from "next";
 import type { FimTribeEvent } from "@/lib/fimTribeEvents";
 import {
   decodeEntities,
@@ -17,9 +5,18 @@ import {
   fetchFimTribeEvents,
   formatEventDateRange,
   isUpcomingByPacificDate,
-  pickEventImageUrl,
   sortByStartAsc,
 } from "@/lib/fimTribeEvents";
+import {
+  ArrowRight,
+  Calendar,
+  CalendarPlus,
+  Clock,
+  ExternalLink,
+  Phone,
+} from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Events | Faith In Motion",
@@ -42,7 +39,6 @@ function isSpanishTitle(title: string): boolean {
 function EventCard({ event }: { event: FimTribeEvent }) {
   const title = decodeEntities(event.title);
   const summary = eventSummary(event);
-  const imgUrl = pickEventImageUrl(event);
   const spanish = isSpanishTitle(title);
   const range = formatEventDateRange(event.start_date, event.end_date);
   const isEb =
@@ -54,72 +50,58 @@ function EventCard({ event }: { event: FimTribeEvent }) {
         event.featured === true ? "border-[#1B6AE3]/35" : "border-[#18336B]/8"
       }`}
     >
-      <div className="flex flex-col lg:flex-row">
-        {imgUrl ? (
-          <div className="relative aspect-[16/9] w-full shrink-0 bg-[#18336B]/5 lg:aspect-auto lg:w-[min(100%,380px)] lg:min-h-[220px]">
-            <Image
-              src={imgUrl}
-              alt=""
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 380px"
-            />
-          </div>
+      <div className="flex min-w-0 flex-col p-6 md:p-8">
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          {event.featured === true ? (
+            <span className="inline-block rounded-full bg-[#FCDB38] px-3 py-1 font-heading text-xs text-[#18336B]">
+              Featured
+            </span>
+          ) : null}
+          {spanish ? (
+            <span className="inline-block rounded-full bg-[#18336B]/10 px-3 py-1 font-heading text-xs text-[#18336B]">
+              Español
+            </span>
+          ) : (
+            <span className="inline-block rounded-full bg-[#18336B]/10 px-3 py-1 font-heading text-xs text-[#18336B]">
+              English
+            </span>
+          )}
+        </div>
+
+        <h2 className="font-heading text-xl text-balance text-[#18336B] md:text-2xl">
+          <a
+            href={event.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#1B6AE3] hover:underline"
+          >
+            {title}
+          </a>
+        </h2>
+
+        <p className="mt-3 text-sm text-[#273C6B]/75">
+          <span className="inline-flex items-center gap-1.5">
+            <Clock className="h-4 w-4 shrink-0 text-[#1B6AE3]" aria-hidden />
+            <time dateTime={event.start_date}>{range}</time>
+          </span>
+        </p>
+
+        {summary ? (
+          <p className="mt-4 text-pretty leading-relaxed text-[#273C6B]/80">
+            {summary}
+          </p>
         ) : null}
 
-        <div className="flex min-w-0 flex-1 flex-col p-6 md:p-8">
-          <div className="mb-3 flex flex-wrap items-center gap-2">
-            {event.featured === true ? (
-              <span className="inline-block rounded-full bg-[#FCDB38] px-3 py-1 font-heading text-xs text-[#18336B]">
-                Featured
-              </span>
-            ) : null}
-            {spanish ? (
-              <span className="inline-block rounded-full bg-[#18336B]/10 px-3 py-1 font-heading text-xs text-[#18336B]">
-                Español
-              </span>
-            ) : (
-              <span className="inline-block rounded-full bg-[#18336B]/10 px-3 py-1 font-heading text-xs text-[#18336B]">
-                English
-              </span>
-            )}
-          </div>
-
-          <h2 className="font-heading text-xl text-balance text-[#18336B] md:text-2xl">
-            <a
-              href={event.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#1B6AE3] hover:underline"
-            >
-              {title}
-            </a>
-          </h2>
-
-          <p className="mt-3 text-sm text-[#273C6B]/75">
-            <span className="inline-flex items-center gap-1.5">
-              <Clock className="h-4 w-4 shrink-0 text-[#1B6AE3]" aria-hidden />
-              <time dateTime={event.start_date}>{range}</time>
-            </span>
-          </p>
-
-          {summary ? (
-            <p className="mt-4 text-pretty leading-relaxed text-[#273C6B]/80">
-              {summary}
-            </p>
-          ) : null}
-
-          <div className="mt-6">
-            <a
-              href={event.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#1B6AE3] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#1F4083]"
-            >
-              {isEb ? "Register on Eventbrite" : "Event details"}
-              <ExternalLink className="h-4 w-4" aria-hidden />
-            </a>
-          </div>
+        <div className="mt-6">
+          <a
+            href={event.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#1B6AE3] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#1F4083]"
+          >
+            {isEb ? "Register on Eventbrite" : "Event details"}
+            <ExternalLink className="h-4 w-4" aria-hidden />
+          </a>
         </div>
       </div>
     </article>
@@ -146,18 +128,6 @@ export default async function EventsPage() {
   return (
     <div>
       <section className="relative overflow-hidden bg-[#18336B] py-20">
-        <div className="absolute inset-0 opacity-5">
-          <div className="relative h-full min-h-[280px] w-full">
-            <Image
-              src="/images/hero-bg.png"
-              alt=""
-              fill
-              className="object-cover"
-              sizes="100vw"
-              priority
-            />
-          </div>
-        </div>
         <div className="relative z-10 mx-auto max-w-7xl px-4 text-center md:px-8">
           <p className="mb-4 font-heading text-sm uppercase tracking-widest text-[#FCDB38]">
             Community events
@@ -166,16 +136,7 @@ export default async function EventsPage() {
             Events
           </h1>
           <p className="mx-auto max-w-2xl text-pretty text-lg text-[#CAD9F5]">
-            Same schedule and Eventbrite registration as{" "}
-            <a
-              href={WP_EVENTS}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-white underline decoration-[#FCDB38]/80 underline-offset-4 hover:decoration-[#FCDB38]"
-            >
-              faithinmotionrivco.org/events
-            </a>
-            . All events are free and open to the community.
+            All events are free and open to the community.
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0">
@@ -274,8 +235,8 @@ export default async function EventsPage() {
                 Upcoming
               </h2>
               <p className="text-sm text-[#273C6B]/60">
-                {upcoming.length}{" "}
-                {upcoming.length === 1 ? "event" : "events"} found
+                {upcoming.length} {upcoming.length === 1 ? "event" : "events"}{" "}
+                found
               </p>
             </div>
 
@@ -346,8 +307,8 @@ export default async function EventsPage() {
           </h2>
           <p className="mx-auto mb-8 max-w-xl text-pretty text-[#CAD9F5]">
             Faith In Motion can bring an informational event to your faith
-            community. Contact us to schedule a presentation about foster
-            care and adoption.
+            community. Contact us to schedule a presentation about foster care
+            and adoption.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
