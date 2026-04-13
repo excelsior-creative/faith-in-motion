@@ -24,28 +24,20 @@ const hearAboutUsOptions = [
   "Other",
 ];
 
-const usStates = [
-  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
-  "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
-  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
-  "VA","WA","WV","WI","WY",
-];
+const initialForm = {
+  interestedIn: "",
+  firstName: "",
+  lastName: "",
+  faithCommunityName: "",
+  email: "",
+  phone: "",
+  address: "",
+  message: "",
+  hearAboutUs: "",
+};
 
 export const ContactForm = () => {
-  const [form, setForm] = useState({
-    interestedIn: "",
-    firstName: "",
-    lastName: "",
-    faithCommunityName: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-    message: "",
-    hearAboutUs: "",
-  });
+  const [form, setForm] = useState(initialForm);
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -123,22 +115,10 @@ export const ContactForm = () => {
           We&apos;ll be in touch with you as soon as possible.
         </p>
         <button
+          type="button"
           onClick={() => {
             setFormState("idle");
-            setForm({
-              interestedIn: "",
-              firstName: "",
-              lastName: "",
-              faithCommunityName: "",
-              email: "",
-              phone: "",
-              address: "",
-              city: "",
-              state: "",
-              zip: "",
-              message: "",
-              hearAboutUs: "",
-            });
+            setForm({ ...initialForm });
           }}
           className="inline-flex items-center gap-2 bg-[#1B6AE3] text-white px-8 py-3 rounded-full font-medium hover:bg-[#1F4083] transition-colors"
         >
@@ -220,10 +200,10 @@ export const ContactForm = () => {
         </div>
       </div>
 
-      {/* Faith Community Name */}
+      {/* Faith Community Name (optional) */}
       <div>
         <label htmlFor="faithCommunityName" className={labelClass}>
-          Faith Community Name <span className="text-[#F94F1E]">*</span>
+          Faith Community Name <span className="text-[#273C6B]/50 font-normal">(optional)</span>
         </label>
         <input
           id="faithCommunityName"
@@ -232,7 +212,6 @@ export const ContactForm = () => {
           value={form.faithCommunityName}
           onChange={handleChange}
           placeholder="Your church or faith community"
-          required
           disabled={isSubmitting}
           className={inputClass}
         />
@@ -274,90 +253,21 @@ export const ContactForm = () => {
         />
       </div>
 
-      {/* Address */}
+      {/* Address (optional, single field) */}
       <div>
         <label htmlFor="address" className={labelClass}>
-          Address <span className="text-[#F94F1E]">*</span>
+          Address <span className="text-[#273C6B]/50 font-normal">(optional)</span>
         </label>
-        <input
+        <textarea
           id="address"
           name="address"
-          type="text"
           value={form.address}
           onChange={handleChange}
-          placeholder="123 Main St"
-          required
+          placeholder="Street, city, state, ZIP"
+          rows={3}
           disabled={isSubmitting}
-          className={inputClass}
+          className={`${inputClass} resize-none`}
         />
-      </div>
-
-      {/* City / Zip */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="city" className={labelClass}>
-            City <span className="text-[#F94F1E]">*</span>
-          </label>
-          <input
-            id="city"
-            name="city"
-            type="text"
-            value={form.city}
-            onChange={handleChange}
-            placeholder="Riverside"
-            required
-            disabled={isSubmitting}
-            className={inputClass}
-          />
-        </div>
-        <div>
-          <label htmlFor="zip" className={labelClass}>
-            Zip <span className="text-[#F94F1E]">*</span>
-          </label>
-          <input
-            id="zip"
-            name="zip"
-            type="text"
-            value={form.zip}
-            onChange={handleChange}
-            placeholder="92501"
-            required
-            disabled={isSubmitting}
-            className={inputClass}
-          />
-        </div>
-      </div>
-
-      {/* State */}
-      <div>
-        <label htmlFor="state" className={labelClass}>
-          State <span className="text-[#F94F1E]">*</span>
-        </label>
-        <div className="relative">
-          <select
-            id="state"
-            name="state"
-            value={form.state}
-            onChange={handleChange}
-            required
-            disabled={isSubmitting}
-            className={selectClass}
-          >
-            <option value="" disabled>
-              Select a state
-            </option>
-            {usStates.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-          <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#273C6B]/40">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
-        </div>
       </div>
 
       {/* Tell us about your interest */}
@@ -377,10 +287,11 @@ export const ContactForm = () => {
         />
       </div>
 
-      {/* How did you hear about us */}
+      {/* How did you hear about us (optional) */}
       <div>
         <label htmlFor="hearAboutUs" className={labelClass}>
-          How did you hear about us? <span className="text-[#F94F1E]">*</span>
+          How did you hear about us?{" "}
+          <span className="text-[#273C6B]/50 font-normal">(optional)</span>
         </label>
         <div className="relative">
           <select
@@ -388,13 +299,10 @@ export const ContactForm = () => {
             name="hearAboutUs"
             value={form.hearAboutUs}
             onChange={handleChange}
-            required
             disabled={isSubmitting}
             className={selectClass}
           >
-            <option value="" disabled>
-              Select an option
-            </option>
+            <option value="">Prefer not to say</option>
             {hearAboutUsOptions.map((opt) => (
               <option key={opt} value={opt}>
                 {opt}

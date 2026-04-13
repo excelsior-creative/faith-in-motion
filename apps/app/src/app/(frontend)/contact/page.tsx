@@ -80,8 +80,9 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="font-heading text-[#18336B] font-semibold mb-0.5">Address</div>
-                    <p className="text-[#273C6B] font-medium">3752 Elizabeth St, Ste D2</p>
-                    <p className="text-[#273C6B]">Riverside, CA</p>
+                    <p className="text-[#273C6B] font-medium">3752 Elizabeth St</p>
+                    <p className="text-[#273C6B]">Ste D2</p>
+                    <p className="text-[#273C6B]">Riverside, CA 92506</p>
                   </div>
                 </div>
 

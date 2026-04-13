@@ -1,9 +1,12 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Varela+Round&family=Inter:wght@400;700&display=swap');
+@plugin "@tailwindcss/typography";
+@plugin "tailwindcss-animate";
 
 @theme {
-  --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Varela Round', sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, sans-serif;
+  --font-display: var(--font-plus-jakarta-sans), ui-sans-serif, sans-serif;
+  /* Keep --font-heading for backward compat on inner pages */
+  --font-heading: var(--font-plus-jakarta-sans), ui-sans-serif, sans-serif;
   --font-mono: ui-monospace, monospace;
 
   --color-background: hsl(var(--background));
@@ -74,6 +77,46 @@
     --ring: 219 78% 25%;
     --radius: 0.5rem;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  [data-theme="frontend"] {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-inter), ui-sans-serif, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-plus-jakarta-sans), ui-sans-serif, sans-serif;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
 }
 
 @layer utilities {
@@ -81,36 +124,66 @@
     background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
     background-size: 20px 20px;
   }
-  .font-heading {
-    font-family: 'Varela Round', sans-serif;
-    font-weight: 400;
-  }
-  .wave-divider {
-    position: relative;
-  }
-  .wave-divider::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z'/%3E%3C/svg%3E") no-repeat center bottom;
-    background-size: 100% 100%;
-  }
-}
 
-@layer base {
-  * {
-    @apply border-border;
+  .bg-dot-pattern-white {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
-  [data-theme="frontend"] {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', sans-serif;
+
+  .font-display {
+    font-family: var(--font-plus-jakarta-sans), ui-sans-serif, sans-serif;
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Varela Round', sans-serif;
-    font-weight: 400;
+
+  .font-heading {
+    font-family: var(--font-plus-jakarta-sans), ui-sans-serif, sans-serif;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    will-change: opacity, transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-up {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      will-change: auto;
+    }
+  }
+
+  /* CSS-driven scroll reveal — used by useScrollReveal hook and static components */
+  .motion-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .motion-reveal.motion-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto;
+  }
+
+  .motion-reveal-opacity {
+    opacity: 0;
+    transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .motion-reveal-opacity.motion-revealed {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion-reveal,
+    .motion-reveal-opacity {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      will-change: auto;
+    }
   }
 }
 

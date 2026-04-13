@@ -6,13 +6,15 @@ import { usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { EASE, DURATION } from "@/lib/motion";
+import { siteSocialLinks } from "@/lib/siteSocialLinks";
 import { Menu, X, Phone } from "lucide-react";
 
 const navbarItems = [
   { name: "Faith Partners", path: "/faith-partners" },
   { name: "Foster/Adopt", path: "/foster-adopt" },
   { name: "Events", path: "/events" },
-  { name: "Contact Us", path: "/contact" },
+  { name: "Contact", path: "/contact" },
 ];
 
 export const Navbar = () => {
@@ -55,8 +57,9 @@ export const Navbar = () => {
               <Link
                 key={item.name}
                 href={item.path}
+                aria-current={pathname === item.path ? "page" : undefined}
                 className={cn(
-                  "font-heading text-sm font-medium transition-colors relative group",
+                  "font-display text-sm font-semibold transition-colors relative group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6AE3] focus-visible:ring-offset-2 rounded-sm",
                   pathname === item.path
                     ? "text-[#1B6AE3]"
                     : "text-[#273C6B] hover:text-[#1B6AE3]"
@@ -71,13 +74,27 @@ export const Navbar = () => {
             ))}
           </div>
 
-          {/* Phone CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Social + phone */}
+          <div className="hidden md:flex items-center gap-2">
+            <div className="flex items-center gap-0.5 pr-1 border-r border-gray-200 mr-1">
+              {siteSocialLinks.map(({ name, href, label, Icon }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-11 w-11 items-center justify-center rounded-lg text-[#273C6B] hover:text-[#1B6AE3] hover:bg-[#1B6AE3]/8 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6AE3] focus-visible:ring-offset-2"
+                >
+                  <Icon className="h-5 w-5" aria-hidden />
+                </a>
+              ))}
+            </div>
             <a
               href="tel:9512285553"
-              className="flex items-center gap-2 bg-[#1B6AE3] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-[#1F4083] transition-colors"
+              className="flex items-center gap-2 bg-[#1B6AE3] text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#1F4083] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6AE3] focus-visible:ring-offset-2"
             >
-              <Phone className="h-4 w-4" />
+              <Phone className="h-4 w-4 shrink-0" />
               (951) 228-5553
             </a>
           </div>
@@ -85,8 +102,9 @@ export const Navbar = () => {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-[#273C6B]"
-            aria-label="Toggle menu"
+            className="md:hidden p-2 text-[#273C6B] rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6AE3]"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -100,6 +118,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: DURATION * 0.7, ease: EASE }}
             className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
           >
             <div className="flex flex-col p-4 gap-4 max-w-7xl mx-auto">
@@ -108,19 +127,35 @@ export const Navbar = () => {
                   key={item.name}
                   href={item.path}
                   onClick={() => setIsOpen(false)}
+                  aria-current={pathname === item.path ? "page" : undefined}
                   className={cn(
-                    "font-heading text-lg py-2 border-b border-gray-100",
+                    "font-display text-lg py-2 border-b border-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6AE3] rounded-sm",
                     pathname === item.path
-                      ? "text-[#1B6AE3] font-semibold"
-                      : "text-[#273C6B]"
+                      ? "text-[#1B6AE3] font-bold"
+                      : "text-[#273C6B] font-semibold"
                   )}
                 >
                   {item.name}
                 </Link>
               ))}
+              <div className="flex items-center justify-center gap-1 pt-2">
+                {siteSocialLinks.map(({ name, href, label, Icon }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    onClick={() => setIsOpen(false)}
+                    className="flex h-12 w-12 items-center justify-center rounded-xl text-[#273C6B] hover:text-[#1B6AE3] hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6AE3] focus-visible:ring-offset-2"
+                  >
+                    <Icon className="h-5 w-5" aria-hidden />
+                  </a>
+                ))}
+              </div>
               <a
                 href="tel:9512285553"
-                className="flex items-center justify-center gap-2 bg-[#1B6AE3] text-white py-3 rounded-full font-medium mt-2"
+                className="flex items-center justify-center gap-2 bg-[#1B6AE3] text-white py-3 rounded-xl font-semibold mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6AE3] focus-visible:ring-offset-2"
               >
                 <Phone className="h-4 w-4" />
                 (951) 228-5553

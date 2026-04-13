@@ -1,77 +1,133 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle } from "lucide-react";
+import { m, useReducedMotion } from "framer-motion";
+import {
+  fadeUp,
+  scaleIn,
+  staggerContainer,
+  transition,
+  VIEWPORT_MARGIN,
+} from "@/lib/motion";
 
 const highlights = [
-  "100+ faith communities united for children",
   "Expert guidance through the foster care system",
-  "Connection with the right foster family agencies",
-  "Ongoing support for foster and adoptive families",
-  "Community events and celebration of milestones",
+  "Connection with the right Riverside County agencies",
+  "Ongoing support from 100+ faith communities",
+  "Community celebration of every milestone",
 ];
 
 export const AboutSection = () => {
+  const shouldReduceMotion = useReducedMotion();
+  const initial = shouldReduceMotion ? false : "hidden";
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 md:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+
           {/* Image */}
-          <div className="relative">
-            <div className="rounded-3xl overflow-hidden">
+          <m.div
+            className="relative order-2 md:order-1"
+            initial={initial}
+            whileInView="visible"
+            viewport={{ once: true, margin: VIEWPORT_MARGIN }}
+            variants={fadeUp}
+            transition={transition(0)}
+          >
+            <div className="relative rounded-3xl overflow-hidden aspect-[5/6]">
               <Image
-                src="/images/recruit-photo.png"
-                alt="Faith community working together for foster children"
-                width={600}
-                height={500}
-                className="w-full object-cover"
+                src="/images/section-bg.jpg"
+                alt="Faith community members working together for children in foster care"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
-            {/* Floating badge */}
-            <div className="absolute -bottom-6 -right-6 bg-[#FCDB38] rounded-2xl p-4 shadow-lg">
-              <div className="font-heading text-[#18336B]">
-                <div className="text-3xl font-bold">100+</div>
-                <div className="text-sm">Faith Communities</div>
+            {/* Credibility badge */}
+            <m.div
+              className="absolute -bottom-4 -right-3 md:-bottom-6 md:-right-6 bg-[#FCDB38] rounded-2xl px-5 py-4 shadow-xl max-w-[180px]"
+              initial={initial}
+              whileInView="visible"
+              viewport={{ once: true, margin: VIEWPORT_MARGIN }}
+              variants={scaleIn}
+              transition={transition(0.18)}
+            >
+              <div className="font-display font-bold text-[#18336B] text-xs uppercase tracking-tight leading-snug">
+                Official DPSS Partner
               </div>
-            </div>
-          </div>
+              <div className="text-[#18336B]/65 text-xs mt-0.5">Riverside County · Since 2013</div>
+            </m.div>
+          </m.div>
 
           {/* Content */}
-          <div>
-            <p className="font-heading text-[#1B6AE3] text-sm uppercase tracking-widest mb-3">
-              About Us
-            </p>
-            <h2 className="font-heading text-3xl md:text-4xl text-[#18336B] mb-6">
-              Faith in Motion is a faith-based organization working in Riverside County
-            </h2>
-            <p className="text-[#273C6B]/80 leading-relaxed mb-6">
-              We help faith communities take an active role in supporting children in foster care. 
-              From the days of the Orphan Trains to today, faith communities have always stepped 
-              up to care for children in need. We continue that tradition.
-            </p>
-            <p className="text-[#273C6B]/80 leading-relaxed mb-8">
-              The Department of Public Social Services (DPSS) instituted the Faith In Motion 
-              Collaborative in 2013. It has grown in size, outreach, and resources with faith 
-              partners who have provided support activities across the county.
-            </p>
-
-            <ul className="space-y-3 mb-8">
-              {highlights.map((item) => (
-                <li key={item} className="flex items-center gap-3 text-[#273C6B]">
-                  <CheckCircle className="h-5 w-5 text-[#1B6AE3] flex-shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Link
-              href="/faith-partners"
-              className="inline-flex items-center gap-2 bg-[#18336B] text-white px-6 py-3 rounded-full font-medium hover:bg-[#1F4083] transition-colors"
+          <m.div
+            className="order-1 md:order-2"
+            initial={initial}
+            whileInView="visible"
+            viewport={{ once: true, margin: VIEWPORT_MARGIN }}
+            variants={staggerContainer}
+            transition={transition(0.1)}
+          >
+            <m.p
+              className="text-[#1B6AE3] text-xs font-semibold uppercase tracking-[0.2em] mb-4"
+              variants={fadeUp}
+              transition={transition(0.1)}
             >
-              Join Our Network
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+              About Us
+            </m.p>
+            <m.h2
+              className="font-display font-bold text-[clamp(1.75rem,3vw+0.5rem,2.75rem)] text-[#18336B] mb-5"
+              variants={fadeUp}
+              transition={transition(0.17)}
+            >
+              Faith communities have always cared for children in need
+            </m.h2>
+            <m.p
+              className="text-[#273C6B]/75 leading-relaxed mb-8"
+              variants={fadeUp}
+              transition={transition(0.24)}
+            >
+              From the days of the Orphan Trains to today, faith communities have stepped up
+              when children needed them most. Faith In Motion formalizes that calling —
+              connecting Riverside County congregations with children in foster care, and with
+              families who need a community around them.
+            </m.p>
+
+            <m.ul
+              className="space-y-3 mb-10"
+              variants={staggerContainer}
+            >
+              {highlights.map((item, i) => (
+                <m.li
+                  key={item}
+                  className="flex items-start gap-3 text-[#273C6B]"
+                  variants={fadeUp}
+                  transition={transition(0.31 + i * 0.06)}
+                >
+                  <CheckCircle className="h-4 w-4 text-[#1B6AE3] shrink-0 mt-0.5" />
+                  <span className="text-sm">{item}</span>
+                </m.li>
+              ))}
+            </m.ul>
+
+            <m.div
+              variants={fadeUp}
+              transition={transition(0.55)}
+            >
+              <Link
+                href="/faith-partners"
+                className="group inline-flex items-center gap-2 bg-[#18336B] text-white px-5 py-3 rounded-xl font-semibold text-sm hover:bg-[#1B6AE3] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#18336B] focus-visible:ring-offset-2"
+              >
+                Join Our Network
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+              </Link>
+            </m.div>
+          </m.div>
+
         </div>
       </div>
     </section>

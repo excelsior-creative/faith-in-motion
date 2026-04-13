@@ -1,48 +1,128 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
+import { m, useReducedMotion } from "framer-motion";
+import { fadeUp, staggerContainer, transition, VIEWPORT_MARGIN } from "@/lib/motion";
 
 const stats = [
-  { value: "100+", label: "Faith Communities", description: "United across Riverside County" },
-  { value: "2013", label: "Founded", description: "By Riverside County DPSS" },
-  { value: "1000s", label: "Children Served", description: "In foster care each year" },
-  { value: "24/7", label: "Support Available", description: "For foster families" },
+  { value: 100, suffix: "+", label: "Faith Communities" },
+  { value: 13, suffix: "+", label: "Years Serving Riverside County" },
+  { value: "1,000s", suffix: "", label: "Children & Families Supported" },
 ];
 
-export const ImpactStats = () => {
-  return (
-    <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="text-center mb-12">
-          <p className="font-heading text-[#1B6AE3] text-sm uppercase tracking-widest mb-3">
-            Our Impact
-          </p>
-          <h2 className="font-heading text-3xl md:text-4xl text-[#18336B]">
-            We Are A Riverside County Faith Program
-          </h2>
-          <p className="mt-4 text-[#273C6B]/70 max-w-2xl mx-auto">
-            The Department of Public Social Services (DPSS) instituted the Faith In Motion 
-            Collaborative in 2013. It has grown in size, outreach, and resources with faith 
-            partners who have provided support activities across the county.
-          </p>
-        </div>
+function useCountUp(target: number, enabled: boolean) {
+  const [count, setCount] = useState(0);
+  const rafRef = useRef<number>(0);
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((stat) => (
-            <div
-              key={stat.value}
-              className="text-center p-6 rounded-2xl bg-[#18336B]/5 border border-[#18336B]/10"
-            >
-              <div className="font-heading text-4xl md:text-5xl text-[#1B6AE3] mb-2">
-                {stat.value}
-              </div>
-              <div className="font-heading text-[#18336B] font-semibold mb-1">
-                {stat.label}
-              </div>
-              <div className="text-sm text-[#273C6B]/60">
-                {stat.description}
-              </div>
-            </div>
+  useEffect(() => {
+    if (!enabled) {
+      setCount(target);
+      return;
+    }
+
+    const duration = 1400;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutExpo
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      setCount(Math.round(eased * target));
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [target, enabled]);
+
+  return count;
+}
+
+function StatItem({
+  stat,
+  delay,
+  shouldReduceMotion,
+}: {
+  stat: (typeof stats)[number];
+  delay: number;
+  shouldReduceMotion: boolean | null;
+}) {
+  const [inView, setInView] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const numericValue = typeof stat.value === "number" ? stat.value : null;
+  const count = useCountUp(numericValue ?? 0, inView && !shouldReduceMotion && numericValue !== null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "-60px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const displayValue = numericValue !== null
+    ? `${count}${stat.suffix}`
+    : `${stat.value}${stat.suffix}`;
+
+  return (
+    <m.div
+      ref={ref}
+      className="text-center"
+      variants={fadeUp}
+      transition={transition(delay)}
+    >
+      <div className="font-display font-bold text-2xl md:text-3xl text-[#18336B]">
+        {inView || shouldReduceMotion ? displayValue : numericValue !== null ? `0${stat.suffix}` : displayValue}
+      </div>
+      <div className="text-xs md:text-sm text-[#273C6B]/55 mt-0.5 font-medium">
+        {stat.label}
+      </div>
+    </m.div>
+  );
+}
+
+export const ImpactStats = () => {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <section className="py-10 md:py-12 bg-white border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <m.div
+          className="flex flex-wrap justify-center gap-8 md:gap-12"
+          initial={shouldReduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: VIEWPORT_MARGIN }}
+          variants={staggerContainer}
+        >
+          {stats.map((stat, i) => (
+            <React.Fragment key={stat.label}>
+              <StatItem
+                stat={stat}
+                delay={i * 0.07}
+                shouldReduceMotion={shouldReduceMotion}
+              />
+              {i < stats.length - 1 && (
+                <m.div
+                  className="hidden md:block w-px h-8 self-center bg-gray-200"
+                  variants={fadeUp}
+                  transition={transition(i * 0.07 + 0.04)}
+                />
+              )}
+            </React.Fragment>
           ))}
-        </div>
+        </m.div>
       </div>
     </section>
   );

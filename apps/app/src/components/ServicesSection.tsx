@@ -1,101 +1,160 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+"use client";
 
-const services = [
-  {
-    icon: "/images/information.png",
-    title: "Information",
-    description:
-      "We provide comprehensive information about foster care and adoption processes in Riverside County to help faith communities understand how they can help.",
-    href: "/faith-partners",
-  },
-  {
-    icon: "/images/donation.png",
-    title: "Donations",
-    description:
-      "Faith communities can support children in foster care through targeted donation drives and resource collections that make a direct difference.",
-    href: "/faith-partners",
-  },
-  {
-    icon: "/images/guidance.png",
-    title: "Guidance",
-    description:
-      "Our team of foster care experts guides prospective foster parents through the system and connects them with the right agencies for their needs.",
-    href: "/foster-adopt",
-  },
-  {
-    icon: "/images/volunteer.png",
-    title: "Volunteers",
-    description:
-      "Mobilize your congregation to volunteer with children and families in need. We connect faith communities with meaningful service opportunities.",
-    href: "/faith-partners",
-  },
-  {
-    icon: "/images/community.png",
-    title: "Connection",
-    description:
-      "Join our network of 100+ faith communities united to take an active role in changing the lives of children in foster care across Riverside County.",
-    href: "/faith-partners",
-  },
-  {
-    icon: "/images/celebrate.png",
-    title: "Celebration",
-    description:
-      "We celebrate every milestone — from successful adoptions to family reunifications. Every child deserves to be celebrated and loved.",
-    href: "/events",
-  },
+import Link from "next/link";
+import { ArrowRight, Users, Heart, CheckCircle } from "lucide-react";
+import { m, useReducedMotion } from "framer-motion";
+import {
+  fadeUp,
+  staggerContainer,
+  transition,
+  VIEWPORT_MARGIN,
+} from "@/lib/motion";
+
+const faithLeaderBenefits = [
+  "Host informational sessions about foster care",
+  "Organize donation drives for children in need",
+  "Mobilize your congregation to volunteer",
+  "Join the county dialogue on foster care",
+  "Celebrate milestones with foster youth and families",
+];
+
+const familyBenefits = [
+  "Expert guidance through the entire approval process",
+  "Connected to the right Riverside County agency for you",
+  "Free information — no cost to families",
+  "Bilingual support available",
+  "Ongoing support from our faith community network",
 ];
 
 export const ServicesSection = () => {
-  return (
-    <section className="py-20 bg-[#18336B]">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="text-center mb-14">
-          <p className="font-heading text-[#FCDB38] text-sm uppercase tracking-widest mb-3">
-            How We Help
-          </p>
-          <h2 className="font-heading text-3xl md:text-4xl text-white">
-            We Are Your Guide To Making A Difference In A Child&apos;s Life.
-          </h2>
-          <p className="mt-4 text-[#CAD9F5] max-w-2xl mx-auto">
-            Faith In Motion provides multiple pathways for faith communities to engage and 
-            support children in foster care throughout Riverside County.
-          </p>
-        </div>
+  const shouldReduceMotion = useReducedMotion();
+  const initial = shouldReduceMotion ? false : "hidden";
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service) => (
+  return (
+    <section className="py-20 md:py-28 bg-[#F8F9FC]">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+
+        {/* Section header */}
+        <m.div
+          className="text-center mb-12 md:mb-16"
+          initial={initial}
+          whileInView="visible"
+          viewport={{ once: true, margin: VIEWPORT_MARGIN }}
+          variants={fadeUp}
+          transition={transition(0)}
+        >
+          <p className="text-[#1B6AE3] text-xs font-semibold uppercase tracking-[0.2em] mb-3">
+            Two Ways to Get Involved
+          </p>
+          <h2 className="font-display font-bold text-[clamp(1.75rem,3vw+0.5rem,2.75rem)] text-[#18336B]">
+            How Faith In Motion works for you
+          </h2>
+          <p className="mt-4 text-[#273C6B]/65 max-w-xl mx-auto">
+            Whether you lead a congregation or are considering opening your home,
+            we are your guide — at every step.
+          </p>
+        </m.div>
+
+        {/* Two-path cards */}
+        <m.div
+          className="grid md:grid-cols-2 gap-5 md:gap-6"
+          initial={initial}
+          whileInView="visible"
+          viewport={{ once: true, margin: VIEWPORT_MARGIN }}
+          variants={staggerContainer}
+        >
+
+          {/* Faith Leaders card */}
+          <m.div
+            className="relative rounded-3xl bg-[#18336B] p-8 md:p-10 overflow-hidden flex flex-col"
+            variants={fadeUp}
+            transition={transition(0.08)}
+          >
+            {/* Background decoration */}
             <div
-              key={service.title}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 group border border-white/10"
-            >
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-14 h-14 flex-shrink-0 bg-white/20 rounded-xl flex items-center justify-center p-2">
-                  <Image
-                    src={service.icon}
-                    alt={service.title}
-                    width={48}
-                    height={48}
-                    className="w-10 h-10 object-contain"
-                  />
-                </div>
-                <h3 className="font-heading text-xl text-white mt-2">{service.title}</h3>
-              </div>
-              <p className="text-[#CAD9F5] text-sm leading-relaxed mb-4">
-                {service.description}
-              </p>
-              <Link
-                href={service.href}
-                className="inline-flex items-center gap-1 text-[#FCDB38] text-sm font-medium group-hover:gap-2 transition-all"
-              >
-                Learn More
-                <ArrowRight className="h-3 w-3" />
-              </Link>
+              aria-hidden
+              className="absolute -top-16 -right-16 w-56 h-56 bg-[#1B6AE3]/20 rounded-full"
+            />
+
+            <div className="w-11 h-11 bg-[#FCDB38] rounded-xl flex items-center justify-center mb-6 shrink-0">
+              <Users className="h-5 w-5 text-[#18336B]" />
             </div>
-          ))}
-        </div>
+
+            <p className="text-[#FCDB38] text-xs font-semibold uppercase tracking-[0.18em] mb-2">
+              For Faith Leaders
+            </p>
+            <h3 className="font-display font-bold text-white text-2xl md:text-[1.75rem] leading-tight mb-4">
+              Mobilize your congregation
+            </h3>
+            <p className="text-[#CAD9F5] leading-relaxed mb-7 text-[0.9375rem]">
+              Join our collaborative network and give your congregation a meaningful
+              way to serve children in foster care across Riverside County.
+            </p>
+
+            <ul className="space-y-2.5 mb-8 flex-grow">
+              {faithLeaderBenefits.map((benefit) => (
+                <li key={benefit} className="flex items-start gap-2.5 text-sm text-[#CAD9F5]">
+                  <CheckCircle className="h-4 w-4 text-[#FCDB38] shrink-0 mt-0.5" />
+                  {benefit}
+                </li>
+              ))}
+            </ul>
+
+            <Link
+              href="/faith-partners"
+              className="group inline-flex items-center gap-2 bg-[#FCDB38] text-[#18336B] px-5 py-3 rounded-xl font-semibold text-sm self-start hover:bg-white transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FCDB38] focus-visible:ring-offset-2 focus-visible:ring-offset-[#18336B]"
+            >
+              Get My Faith Community Involved
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </Link>
+          </m.div>
+
+          {/* Foster/Adopt card */}
+          <m.div
+            className="relative rounded-3xl bg-white border border-gray-100 p-8 md:p-10 overflow-hidden flex flex-col shadow-sm"
+            variants={fadeUp}
+            transition={transition(0.16)}
+          >
+            {/* Background decoration */}
+            <div
+              aria-hidden
+              className="absolute -top-16 -right-16 w-56 h-56 bg-[#F94F1E]/6 rounded-full"
+            />
+
+            <div className="w-11 h-11 bg-[#F94F1E] rounded-xl flex items-center justify-center mb-6 shrink-0">
+              <Heart className="h-5 w-5 text-white" />
+            </div>
+
+            <p className="text-[#F94F1E] text-xs font-semibold uppercase tracking-[0.18em] mb-2">
+              For Families
+            </p>
+            <h3 className="font-display font-bold text-[#18336B] text-2xl md:text-[1.75rem] leading-tight mb-4">
+              Give a child a loving home
+            </h3>
+            <p className="text-[#273C6B]/70 leading-relaxed mb-7 text-[0.9375rem]">
+              Our foster care experts guide you through every step of the process —
+              for free — and connect you with the agency that&apos;s right for your family.
+            </p>
+
+            <ul className="space-y-2.5 mb-8 flex-grow">
+              {familyBenefits.map((benefit) => (
+                <li key={benefit} className="flex items-start gap-2.5 text-sm text-[#273C6B]">
+                  <CheckCircle className="h-4 w-4 text-[#1B6AE3] shrink-0 mt-0.5" />
+                  {benefit}
+                </li>
+              ))}
+            </ul>
+
+            <Link
+              href="/foster-adopt"
+              className="group inline-flex items-center gap-2 bg-[#F94F1E] text-white px-5 py-3 rounded-xl font-semibold text-sm self-start hover:bg-[#18336B] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F94F1E] focus-visible:ring-offset-2"
+            >
+              Start Your Journey
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </Link>
+          </m.div>
+
+        </m.div>
       </div>
     </section>
   );

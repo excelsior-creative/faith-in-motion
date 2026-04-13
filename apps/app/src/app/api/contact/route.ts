@@ -3,9 +3,15 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 type ContactRequest = {
-  name: string;
-  email: string;
-  message: string;
+  interestedIn?: string;
+  firstName?: string;
+  lastName?: string;
+  faithCommunityName?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  message?: string;
+  hearAboutUs?: string;
   recaptchaToken?: string;
 };
 
@@ -42,8 +48,6 @@ async function verifyRecaptcha(
 
     const data: RecaptchaResponse = await response.json();
 
-    // reCAPTCHA v3 returns a score from 0.0 to 1.0
-    // 1.0 is very likely a good interaction, 0.0 is very likely a bot
     const isValid =
       data.success && (data.score === undefined || data.score >= 0.5);
 
@@ -59,11 +63,93 @@ function isValidEmail(email: string): boolean {
   return emailRegex.test(email);
 }
 
-function generateEmailHTML(
-  name: string,
-  email: string,
-  message: string
-): string {
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function emailSectionRow(label: string, value: string, preWrap = false): string {
+  const style = preWrap
+    ? "margin: 0; color: #333; font-size: 15px; line-height: 1.7; white-space: pre-wrap;"
+    : "margin: 0; color: #1a1a1a; font-size: 16px;";
+  return `
+                <tr>
+                  <td style="padding: 20px 0; border-bottom: 1px solid #eee;">
+                    <p style="margin: 0 0 5px 0; color: #FF5722; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">
+                      ${escapeHtml(label)}
+                    </p>
+                    <p style="${style}">${escapeHtml(value)}</p>
+                  </td>
+                </tr>`;
+}
+
+function generateEmailHTML(params: {
+  name: string;
+  email: string;
+  phone: string;
+  interestedIn: string;
+  faithCommunityName: string;
+  address: string;
+  hearAboutUs: string;
+  message: string;
+}): string {
+  const rows: string[] = [
+    `
+                <tr>
+                  <td style="padding-bottom: 20px; border-bottom: 1px solid #eee;">
+                    <p style="margin: 0 0 5px 0; color: #FF5722; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">
+                      From
+                    </p>
+                    <p style="margin: 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
+                      ${escapeHtml(params.name)}
+                    </p>
+                  </td>
+                </tr>`,
+    `
+                <tr>
+                  <td style="padding: 20px 0; border-bottom: 1px solid #eee;">
+                    <p style="margin: 0 0 5px 0; color: #FF5722; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">
+                      Email
+                    </p>
+                    <p style="margin: 0;">
+                      <a href="mailto:${encodeURIComponent(params.email)}" style="color: #1a1a1a; font-size: 16px; text-decoration: none;">
+                        ${escapeHtml(params.email)}
+                      </a>
+                    </p>
+                  </td>
+                </tr>`,
+    emailSectionRow("Phone", params.phone),
+    emailSectionRow("Interested in", params.interestedIn),
+  ];
+
+  if (params.faithCommunityName) {
+    rows.push(emailSectionRow("Faith community", params.faithCommunityName));
+  }
+  if (params.address) {
+    rows.push(emailSectionRow("Address", params.address, true));
+  }
+  if (params.hearAboutUs) {
+    rows.push(emailSectionRow("How they heard about us", params.hearAboutUs));
+  }
+  if (params.message) {
+    rows.push(`
+                <tr>
+                  <td style="padding-top: 20px;">
+                    <p style="margin: 0 0 10px 0; color: #FF5722; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">
+                      Message
+                    </p>
+                    <div style="background-color: #f9f9f9; border-left: 4px solid #FF5722; padding: 20px; border-radius: 0 4px 4px 0;">
+                      <p style="margin: 0; color: #333; font-size: 15px; line-height: 1.7; white-space: pre-wrap;">
+${escapeHtml(params.message)}
+                      </p>
+                    </div>
+                  </td>
+                </tr>`);
+  }
+
   return `
 <!DOCTYPE html>
 <html>
@@ -77,7 +163,6 @@ function generateEmailHTML(
     <tr>
       <td align="center">
         <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-          <!-- Header with gradient -->
           <tr>
             <td style="background: #FF5722; padding: 40px 30px; text-align: center;">
               <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">
@@ -85,55 +170,17 @@ function generateEmailHTML(
               </h1>
             </td>
           </tr>
-          
-          <!-- Content -->
           <tr>
             <td style="padding: 40px 30px;">
-              <!-- Contact Details -->
               <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="padding-bottom: 20px; border-bottom: 1px solid #eee;">
-                    <p style="margin: 0 0 5px 0; color: #FF5722; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">
-                      From
-                    </p>
-                    <p style="margin: 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
-                      ${name}
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 20px 0; border-bottom: 1px solid #eee;">
-                    <p style="margin: 0 0 5px 0; color: #FF5722; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">
-                      Email
-                    </p>
-                    <p style="margin: 0;">
-                      <a href="mailto:${email}" style="color: #1a1a1a; font-size: 16px; text-decoration: none;">
-                        ${email}
-                      </a>
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 20px;">
-                    <p style="margin: 0 0 10px 0; color: #FF5722; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">
-                      Message
-                    </p>
-                    <div style="background-color: #f9f9f9; border-left: 4px solid #FF5722; padding: 20px; border-radius: 0 4px 4px 0;">
-                      <p style="margin: 0; color: #333; font-size: 15px; line-height: 1.7; white-space: pre-wrap;">
-${message}
-                      </p>
-                    </div>
-                  </td>
-                </tr>
+${rows.join("")}
               </table>
             </td>
           </tr>
-          
-          <!-- Footer -->
           <tr>
             <td style="background-color: #1a1a1a; padding: 25px 30px; text-align: center;">
               <p style="margin: 10px 0 0 0; color: #444; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">
-                © ${new Date().getFullYear()} Template Site
+                © ${new Date().getFullYear()} Faith In Motion
               </p>
             </td>
           </tr>
@@ -149,9 +196,19 @@ ${message}
 export async function POST(request: NextRequest) {
   try {
     const body: ContactRequest = await request.json();
-    const { name, email, message, recaptchaToken } = body;
+    const {
+      interestedIn = "",
+      firstName = "",
+      lastName = "",
+      faithCommunityName = "",
+      email = "",
+      phone = "",
+      address = "",
+      message = "",
+      hearAboutUs = "",
+      recaptchaToken,
+    } = body;
 
-    // Verify reCAPTCHA if token is provided and secret key is configured
     if (recaptchaToken && process.env.RECAPTCHA_SECRET_KEY) {
       const recaptchaResult = await verifyRecaptcha(recaptchaToken);
 
@@ -166,34 +223,61 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Validation
-    if (!name || !name.trim()) {
-      return NextResponse.json({ error: "Name is required" }, { status: 400 });
-    }
+    const first = firstName.trim();
+    const last = lastName.trim();
+    const name = `${first} ${last}`.trim();
+    const emailTrim = email.trim();
+    const phoneTrim = phone.trim();
+    const interestedTrim = interestedIn.trim();
 
-    if (!email || !isValidEmail(email)) {
+    if (!first) {
+      return NextResponse.json(
+        { error: "First name is required" },
+        { status: 400 }
+      );
+    }
+    if (!last) {
+      return NextResponse.json(
+        { error: "Last name is required" },
+        { status: 400 }
+      );
+    }
+    if (!emailTrim || !isValidEmail(emailTrim)) {
       return NextResponse.json(
         { error: "Valid email is required" },
         { status: 400 }
       );
     }
-
-    if (!message || !message.trim()) {
+    if (!phoneTrim) {
       return NextResponse.json(
-        { error: "Message is required" },
+        { error: "Phone number is required" },
+        { status: 400 }
+      );
+    }
+    if (!interestedTrim) {
+      return NextResponse.json(
+        { error: "Please select what you are interested in" },
         { status: 400 }
       );
     }
 
-    // Send email via Payload
     const payload = await getPayload({ config });
 
     await payload.sendEmail({
       to: process.env.CONTACT_EMAIL || "admin@example.com",
       from: process.env.FROM_EMAIL || "noreply@example.com",
-      replyTo: email,
+      replyTo: emailTrim,
       subject: `New Contact: ${name}`,
-      html: generateEmailHTML(name.trim(), email.trim(), message.trim()),
+      html: generateEmailHTML({
+        name,
+        email: emailTrim,
+        phone: phoneTrim,
+        interestedIn: interestedTrim,
+        faithCommunityName: faithCommunityName.trim(),
+        address: address.trim(),
+        hearAboutUs: hearAboutUs.trim(),
+        message: message.trim(),
+      }),
     });
 
     return NextResponse.json({
@@ -208,4 +292,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

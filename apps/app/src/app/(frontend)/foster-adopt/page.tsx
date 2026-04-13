@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Heart, Users, CheckCircle, Phone, Mail } from "lucide-react";
+import { ArrowRight, Heart, Users, CheckCircle, Phone, Mail, Star } from "lucide-react";
 import type { Metadata } from "next";
+import { SectionReveal } from "@/components/SectionReveal";
+import { FosterAdoptSteps, FosterAdoptStories } from "./FosterAdoptAnimated";
 
 export const metadata: Metadata = {
   title: "Foster & Adopt | Faith In Motion",
@@ -60,6 +62,13 @@ const stories = [
   },
 ];
 
+const whyItems = [
+  { icon: Heart, label: "Compassion", desc: "Children need loving, stable homes" },
+  { icon: Users, label: "Support", desc: "You won't be alone in this journey" },
+  { icon: Star, label: "Impact", desc: "Change a child's life forever" },
+  { icon: CheckCircle, label: "Guidance", desc: "Expert help every step of the way" },
+];
+
 export default function FosterAdoptPage() {
   return (
     <div>
@@ -69,13 +78,13 @@ export default function FosterAdoptPage() {
           <Image src="/images/hero-bg.png" alt="" fill className="object-cover" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 text-center">
-          <p className="font-heading text-[#FCDB38] text-sm uppercase tracking-widest mb-4">
+          <p className="font-heading text-[#FCDB38] text-sm uppercase tracking-widest mb-4 animate-fade-up [animation-delay:80ms]">
             Change A Life
           </p>
-          <h1 className="font-heading text-4xl md:text-5xl text-white mb-6">
+          <h1 className="font-heading text-4xl md:text-5xl text-white mb-6 animate-fade-up [animation-delay:160ms]">
             Change A Child&apos;s Life
           </h1>
-          <p className="text-[#CAD9F5] text-lg max-w-2xl mx-auto">
+          <p className="text-[#CAD9F5] text-lg max-w-2xl mx-auto animate-fade-up [animation-delay:240ms]">
             Every day children and teens are removed from their homes through no fault of their own. 
             You can make a difference by becoming a foster or adoptive parent.
           </p>
@@ -91,7 +100,7 @@ export default function FosterAdoptPage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+            <SectionReveal>
               <p className="font-heading text-[#1B6AE3] text-sm uppercase tracking-widest mb-3">
                 Why It Matters
               </p>
@@ -133,26 +142,24 @@ export default function FosterAdoptPage() {
                   Call Us Now
                 </a>
               </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { icon: Heart, label: "Compassion", desc: "Children need loving, stable homes" },
-                { icon: Users, label: "Support", desc: "You won't be alone in this journey" },
-                { icon: Star, label: "Impact", desc: "Change a child's life forever" },
-                { icon: CheckCircle, label: "Guidance", desc: "Expert help every step of the way" },
-              ].map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div key={item.label} className="bg-[#18336B]/5 rounded-2xl p-6 text-center">
-                    <div className="w-12 h-12 bg-[#1B6AE3] rounded-full flex items-center justify-center mx-auto mb-3">
-                      <Icon className="h-6 w-6 text-white" />
+            </SectionReveal>
+
+            <SectionReveal delay={120}>
+              <div className="grid grid-cols-2 gap-4">
+                {whyItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.label} className="bg-[#18336B]/5 rounded-2xl p-6 text-center">
+                      <div className="w-12 h-12 bg-[#1B6AE3] rounded-full flex items-center justify-center mx-auto mb-3">
+                        <Icon className="h-6 w-6 text-white" />
+                      </div>
+                      <div className="font-heading text-[#18336B] font-semibold mb-1">{item.label}</div>
+                      <div className="text-sm text-[#273C6B]/70">{item.desc}</div>
                     </div>
-                    <div className="font-heading text-[#18336B] font-semibold mb-1">{item.label}</div>
-                    <div className="text-sm text-[#273C6B]/70">{item.desc}</div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            </SectionReveal>
           </div>
         </div>
       </section>
@@ -160,7 +167,7 @@ export default function FosterAdoptPage() {
       {/* Process Steps */}
       <section className="py-20 bg-[#18336B]">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-14">
+          <SectionReveal className="text-center mb-14">
             <p className="font-heading text-[#FCDB38] text-sm uppercase tracking-widest mb-3">
               The Process
             </p>
@@ -171,82 +178,57 @@ export default function FosterAdoptPage() {
               Faith In Motion simplifies the path to becoming a foster or adoptive parent. 
               Here&apos;s what to expect when you work with us.
             </p>
-          </div>
-          <div className="relative">
-            <div className="hidden md:block absolute top-8 left-[10%] right-[10%] h-0.5 bg-white/20" />
-            <div className="grid md:grid-cols-5 gap-6 relative z-10">
-              {steps.map((step) => (
-                <div key={step.number} className="text-center">
-                  <div className="w-16 h-16 bg-[#1B6AE3] rounded-full flex items-center justify-center mx-auto mb-4 text-white font-heading text-lg">
-                    {step.number}
-                  </div>
-                  <h3 className="font-heading text-white text-sm mb-2">{step.title}</h3>
-                  <p className="text-[#CAD9F5] text-xs leading-relaxed">{step.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          </SectionReveal>
+
+          <FosterAdoptSteps steps={steps} />
         </div>
       </section>
 
       {/* Stories */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
+          <SectionReveal className="text-center mb-12">
             <p className="font-heading text-[#1B6AE3] text-sm uppercase tracking-widest mb-3">
               Real Families
             </p>
             <h2 className="font-heading text-3xl md:text-4xl text-[#18336B]">
               Foster Care and Adoption Stories
             </h2>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            {stories.map((story) => (
-              <div
-                key={story.name}
-                className="bg-[#18336B]/5 rounded-2xl p-8 border border-[#18336B]/10"
-              >
-                <div className="w-12 h-12 bg-[#1B6AE3] rounded-full flex items-center justify-center mb-4">
-                  <Heart className="h-6 w-6 text-white" />
-                </div>
-                <div className="font-heading text-xl text-[#18336B] mb-2">{story.name}</div>
-                <p className="text-[#273C6B]/80 leading-relaxed mb-3">{story.description}</p>
-                <span className="inline-block bg-[#1B6AE3]/10 text-[#1B6AE3] text-sm px-3 py-1 rounded-full">
-                  {story.role}
-                </span>
-              </div>
-            ))}
-          </div>
+          </SectionReveal>
+
+          <FosterAdoptStories stories={stories} />
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-16 bg-[#F94F1E]">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <h2 className="font-heading text-2xl md:text-3xl text-white mb-2">
-                Ready to Change a Child&apos;s Life?
-              </h2>
-              <p className="text-white/80">Contact us today to start your foster or adoption journey.</p>
+          <SectionReveal>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div>
+                <h2 className="font-heading text-2xl md:text-3xl text-white mb-2">
+                  Ready to Change a Child&apos;s Life?
+                </h2>
+                <p className="text-white/80">Contact us today to start your foster or adoption journey.</p>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href="tel:9512285553"
+                  className="inline-flex items-center gap-2 bg-white text-[#F94F1E] px-6 py-3 rounded-full font-medium hover:bg-[#FCDB38] hover:text-[#18336B] transition-colors"
+                >
+                  <Phone className="h-4 w-4" />
+                  (951) 228-5553
+                </a>
+                <a
+                  href="mailto:faithinmotion@fosterall.org"
+                  className="inline-flex items-center gap-2 border-2 border-white text-white px-6 py-3 rounded-full font-medium hover:bg-white hover:text-[#F94F1E] transition-colors"
+                >
+                  <Mail className="h-4 w-4" />
+                  Email Us
+                </a>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="tel:9512285553"
-                className="inline-flex items-center gap-2 bg-white text-[#F94F1E] px-6 py-3 rounded-full font-medium hover:bg-[#FCDB38] hover:text-[#18336B] transition-colors"
-              >
-                <Phone className="h-4 w-4" />
-                (951) 228-5553
-              </a>
-              <a
-                href="mailto:faithinmotion@fosterall.org"
-                className="inline-flex items-center gap-2 border-2 border-white text-white px-6 py-3 rounded-full font-medium hover:bg-white hover:text-[#F94F1E] transition-colors"
-              >
-                <Mail className="h-4 w-4" />
-                Email Us
-              </a>
-            </div>
-          </div>
+          </SectionReveal>
         </div>
       </section>
     </div>

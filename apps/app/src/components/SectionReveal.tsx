@@ -1,7 +1,8 @@
 "use client";
 
-import { m } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import React from "react";
+import { fadeUp, transition, VIEWPORT_MARGIN } from "@/lib/motion";
 
 type SectionRevealProps = {
   children: React.ReactNode;
@@ -9,13 +10,20 @@ type SectionRevealProps = {
   delay?: number;
 };
 
-export const SectionReveal = ({ children, className, delay = 0 }: SectionRevealProps) => {
+export const SectionReveal = ({
+  children,
+  className,
+  delay = 0,
+}: SectionRevealProps) => {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <m.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.5, delay: delay / 1000 }}
+      initial={shouldReduceMotion ? false : "hidden"}
+      whileInView="visible"
+      viewport={{ once: true, margin: VIEWPORT_MARGIN }}
+      variants={fadeUp}
+      transition={transition(delay / 1000)}
       className={className}
     >
       {children}

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Users, BookOpen, Gift, MessageCircle, Star, MapPin as GuideIcon } from "lucide-react";
+import { ArrowRight, CheckCircle } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,32 +11,32 @@ export const metadata: Metadata = {
 
 const ways = [
   {
-    icon: BookOpen,
+    imageSrc: "/images/faith-partners/information-140x140.png",
     title: "Information",
     description: "Host informational sessions about foster care for your congregation. We provide speakers, materials, and resources to help your community understand the needs of children in foster care.",
   },
   {
-    icon: Gift,
+    imageSrc: "/images/faith-partners/donation-140x140.png",
     title: "Donations",
     description: "Organize donation drives for children in foster care. Items like hygiene products, clothing, school supplies, and household goods make a direct impact on children's lives.",
   },
   {
-    icon: Users,
+    imageSrc: "/images/faith-partners/volunteer-140x140.png",
     title: "Volunteers",
     description: "Mobilize your congregation to volunteer with children and families. From tutoring to mentorship to practical help, your community members can make lasting connections.",
   },
   {
-    icon: GuideIcon,
+    imageSrc: "/images/faith-partners/guidance-140x140.png",
     title: "Guidance",
     description: "We support faith members by educating them on the foster process and helping them in the selection of a foster family agency (FFA). Step-by-step guidance through every stage of the journey.",
   },
   {
-    icon: MessageCircle,
+    imageSrc: "/images/faith-partners/community-140x140.png",
     title: "Connection",
     description: "Become part of the dialogue about foster care with the County of Riverside. Faith partners have a voice in shaping how children in foster care are served.",
   },
   {
-    icon: Star,
+    imageSrc: "/images/faith-partners/celebrate-140x140.png",
     title: "Celebration",
     description: "Celebrate milestones with foster youth and families — birthdays, adoptions, graduations. Your community can be the support system every child deserves.",
   },
@@ -114,21 +114,25 @@ export default function FaithPartnersPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {ways.map((way) => {
-              const Icon = way.icon;
-              return (
-                <div
-                  key={way.title}
-                  className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow border border-[#18336B]/5"
-                >
-                  <div className="w-12 h-12 bg-[#1B6AE3]/10 rounded-xl flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-[#1B6AE3]" />
-                  </div>
-                  <h3 className="font-heading text-xl text-[#18336B] mb-3">{way.title}</h3>
-                  <p className="text-[#273C6B]/70 leading-relaxed">{way.description}</p>
+            {ways.map((way) => (
+              <div
+                key={way.title}
+                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow border border-[#18336B]/5"
+              >
+                <div className="mb-4">
+                  <Image
+                    src={way.imageSrc}
+                    alt={way.title}
+                    width={140}
+                    height={140}
+                    sizes="64px"
+                    className="h-16 w-16 object-contain"
+                  />
                 </div>
-              );
-            })}
+                <h3 className="font-heading text-xl text-[#18336B] mb-3">{way.title}</h3>
+                <p className="text-[#273C6B]/70 leading-relaxed">{way.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

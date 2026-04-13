@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen flex-col" data-theme="frontend">
       <Providers>
         <Navbar />
-        <main className="flex-grow pt-20">
+        <main id="main-content" className="flex-grow pt-20">
           {children}
         </main>
         <Footer />
