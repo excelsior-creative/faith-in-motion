@@ -22,7 +22,7 @@ const sections = [
   { id: "contact", label: "Contact Us" },
 ];
 
-// test
+// test 2
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
